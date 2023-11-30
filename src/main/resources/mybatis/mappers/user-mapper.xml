@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mappers.UserMapper">
+    <select id="user_login" resultType="User" parameterType="User">
+        SELECT * FROM `user`
+        WHERE id = #{id} AND pw = #{pw}
+    </select>
+    <insert id="user_register" parameterType="User">
+        INSERT INTO `user` VALUES (#{id}, #{pw}, #{nick})
+    </insert>
+
+
+
+</mapper>
