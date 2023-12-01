@@ -1,5 +1,6 @@
 package com.board.controller;
 
+import com.board.dto.GroupDTO;
 import com.board.dto.UserDTO;
 import com.board.mappers.UserMapper;
 import com.board.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Log4j2
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -23,7 +25,7 @@ public class UserController {
         UserDTO loginedUserDTO = userMapper.user_login(userDTO);
         // 조회된 유저가 없다는 것 == 로그인 실패!
         if(loginedUserDTO == null){
-            return "redirect:/main";
+            return "redirect:/";
         }
         session.setAttribute("loginedUser", loginedUserDTO);
         // 로그인 성공!
@@ -35,5 +37,12 @@ public class UserController {
         // 전달받은 유저 정보로 회원가입을 시도한다
         userMapper.user_register(userDTO);
         return "redirect:/main";
+    }
+
+    @PostMapping("/invite")
+    public String group_invite_user(String id, GroupDTO groupDTO){
+
+        userService.group_invite_user(id, groupDTO);
+        return "redirect:/main/calendar";
     }
 }

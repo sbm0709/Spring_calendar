@@ -23,7 +23,6 @@ public class GroupService {
         log.warn("group_create 시작");
         groupDTO.setCreateIdNo(userDTO.getIdNo());
         groupMapper.group_create(groupDTO);
-
         log.warn("group_create 성공");
 
         groupMapper.user_group_insert(groupDTO);

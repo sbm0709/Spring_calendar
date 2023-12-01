@@ -3,18 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인/회원가입</title>
+    <link rel="stylesheet" th:href="@{../static/css/login.css}" type="text/css">
 </head>
 <body>
-    <form action="user/login" method="post">
-        <label>아이디: <input type="text" th:name="id"></label>
-        <button>초대하기</button>
-    </form>
 
-    <form action="group/create" method="post">
-        <label>그룹이름: <input type="text" th:name="groupName"></label>
-        <label>만든이: <input type="text" th:name="createId"></label>
-        <label>test id: <input type="text" th:name="userDTO"></label>
-        <button>생성하기</button>
-    </form>
+<!--<form action="/user/login" method="post">-->
+<!--    <label>아이디: <input type="text" th:name="id"></label>-->
+<!--    <label>비밀번호: <input type="text" th:name="pw"></label>-->
+<!--    <button type="submit">로그인</button>-->
+<!--    <button type="button" onclick="location.href='user/register'" >로그인</button>-->
+<!--</form>-->
+
+<div class="container">
+    <div class="screen">
+        <div class="screen__content">
+            <form class="login" action="/user/login" method="post">
+                <div class="login__field">
+                    <i class="login__icon fas fa-user"></i>
+                    <input type="text" class="login__input" placeholder="User name / Email" th:name="id">
+                </div>
+                <div class="login__field">
+                    <i class="login__icon fas fa-lock"></i>
+                    <input type="password" class="login__input" placeholder="Password" th:name="pw">
+                </div>
+                <button class="button login__submit">
+                    <span class="button__text">Log In Now</span>
+                    <i class="button__icon fas fa-chevron-right"></i>
+                </button>
+                <button type="button" class="button login__submit" onclick="location.href='user/register'">
+                    <span class="button__text">Sign Up</span>
+                    <i class="button__icon fas fa-chevron-right"></i>
+                </button>
+            </form>
+<!--            <div class="social-login">-->
+<!--                <h3>log in via</h3>-->
+<!--                <div class="social-icons">-->
+<!--                    <a href="#" class="social-login__icon fab fa-instagram"></a>-->
+<!--                    <a href="#" class="social-login__icon fab fa-facebook"></a>-->
+<!--                    <a href="#" class="social-login__icon fab fa-twitter"></a>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+        <div class="screen__background">
+            <span class="screen__background__shape screen__background__shape4"></span>
+            <span class="screen__background__shape screen__background__shape3"></span>
+            <span class="screen__background__shape screen__background__shape2"></span>
+            <span class="screen__background__shape screen__background__shape1"></span>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

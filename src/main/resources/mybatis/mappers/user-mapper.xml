@@ -3,30 +3,30 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.board.mappers.UserMapper">
 
-    <select id="user_login" resultType="User" parameterType="User">
+    <select id="user_login" resultType="UserDTO" parameterType="UserDTO">
         SELECT * FROM `user`
         WHERE id = #{id} AND pw = #{pw}
     </select>
 
-    <select id="user_select" resultType="User" parameterType="String">
+    <select id="user_select" resultType="UserDTO" parameterType="String">
         SELECT * FROM `user`
         WHERE id = #{id}
     </select>
 
 
-    <insert id="user_register" parameterType="User">
+    <insert id="user_register" parameterType="UserDTO">
         INSERT INTO `user` VALUES (NULL, #{id}, #{pw})
     </insert>
 
 
 <!--    group에 타 유저 초대하기-->
-    <insert id="user_invite" parameterType="UserGroup">
+    <insert id="user_invite" parameterType="UserGroupDTO">
         INSERT INTO `user_group` VALUES (NULL, #{idNo}, #{groupNo} )
     </insert>
 
 
 <!-- 그룹 초대할때 중복 거르기용 select문 -->
-    <select id="user_group_select" parameterType="UserGroup">
+    <select id="user_group_select" parameterType="UserGroupDTO">
             SELECT * FROM `user_group` WHERE idNo = #{idNo} AND groupNo = #{groupNo}
     </select>
 
@@ -36,7 +36,7 @@
     </select>
 
 <!--   그룹 탈퇴-->
-    <delete id="user_group_secession" parameterType="UserGroup">
+    <delete id="user_group_secession" parameterType="UserGroupDTO">
         DELETE FROM `user_group` WHERE idNo = #{idNo} AND groupNo = #{groupNo}
     </delete>
 

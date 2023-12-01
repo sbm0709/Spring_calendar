@@ -4,12 +4,12 @@
 <mapper namespace="com.board.mappers.GroupMapper">
 
 <!--    그룹 생성-->
-    <insert id="group_create" parameterType="Group" >
+    <insert id="group_create" parameterType="GroupDTO" >
         INSERT INTO `group` VALUES ( NULL, #{groupName}, #{createIdNo} )
     </insert>
 
 <!-- 그룹 생성자 user_group넣기 -->
-    <insert id="user_group_insert" parameterType="Group">
+    <insert id="user_group_insert" parameterType="GroupDTO">
         <selectKey keyProperty="groupNo" order="BEFORE" resultType="int">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -17,7 +17,7 @@
     </insert>
 
 <!--    그룹 삭제-->
-    <delete id="group_delete" parameterType="Group">
+    <delete id="group_delete" parameterType="GroupDTO">
         DELETE FROM `group` WHERE `groupNo`=#{groupNo}
     </delete>
 

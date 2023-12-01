@@ -28,14 +28,14 @@ public class GroupController {
     @PostMapping("/create")
     public String createGroup(
             GroupDTO groupDTO,
-            UserDTO userDTO
-//            HttpSession session //
+            HttpSession session //
     ){
-        log.warn(userDTO);
         log.warn(groupDTO);
-//        UserDTO loginUserDTO = (UserDTO) session.getAttribute("loginUser");
-//        groupService.group_create(groupDTO, userDTO);
-        return "redirect:/";
+        UserDTO loginUserDTO = (UserDTO) session.getAttribute("loginedUser");
+        log.warn(loginUserDTO);
+        groupService.group_create(groupDTO, loginUserDTO);
+
+        return "redirect:/main/calendar";
     }
 
 
