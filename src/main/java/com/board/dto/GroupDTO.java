@@ -13,5 +13,5 @@ import lombok.ToString;
 public class GroupDTO {
     private int groupNo;
     private String groupName;
-    private String createId;
+    private int createIdNo;
 }

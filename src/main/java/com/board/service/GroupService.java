@@ -17,14 +17,17 @@ public class GroupService {
     private final GroupMapper groupMapper;
 
 
-    public void group_create(GroupDTO groupDTO, String userDTO){
+    public void group_create(GroupDTO groupDTO, UserDTO userDTO){
 //        groupDTO.setCreateId(userDTO.getId());
         log.warn("group_create 시작");
+        groupDTO.setCreateIdNo(userDTO.getIdNo());
         groupMapper.group_create(groupDTO);
         log.warn("group_create 성공");
-//        groupMapper.user_group_insert(userDTO.getIdNo());
-        groupMapper.user_group_insert(2);
+//        groupMapper.user_group_insert(userDTO);
+        groupMapper.user_group_insert(groupDTO);
         log.warn("user_group_insert 성공");
     }
+
+
 
 }

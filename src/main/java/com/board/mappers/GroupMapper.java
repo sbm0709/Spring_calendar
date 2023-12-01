@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface GroupMapper {
 
     void group_create(GroupDTO groupDTO);
-    void user_group_insert(int userIdNo);
+    void user_group_insert(GroupDTO groupDTO);
+
 
 }
