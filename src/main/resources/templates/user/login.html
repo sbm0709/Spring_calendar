@@ -5,12 +5,16 @@
     <title>로그인/회원가입</title>
 </head>
 <body>
-    <form action="/userDTO/login" method="post">
+    <form action="user/login" method="post">
         <label>아이디: <input type="text" th:name="id"></label>
         <button>초대하기</button>
     </form>
 
-
+    <form action="group/create" method="post">
+        <label>그룹이름: <input type="text" th:name="groupName"></label>
+        <label>만든이: <input type="text" th:name="createId"></label>
+        <label>test id: <input type="text" th:name="userDTO"></label>
+        <button>생성하기</button>
     </form>
 </body>
 </html>

@@ -16,10 +16,15 @@ public class GroupService {
 
     private final GroupMapper groupMapper;
 
-    public void group_create(GroupDTO groupDTO, HttpSession session){
-        UserDTO loginUserDTO = (UserDTO) session.getAttribute("loginUser");
-        groupDTO.setCreateId(loginUserDTO.getId());
+
+    public void group_create(GroupDTO groupDTO, String userDTO){
+//        groupDTO.setCreateId(userDTO.getId());
+        log.warn("group_create 시작");
         groupMapper.group_create(groupDTO);
+        log.warn("group_create 성공");
+//        groupMapper.user_group_insert(userDTO.getIdNo());
+        groupMapper.user_group_insert(2);
+        log.warn("user_group_insert 성공");
     }
 
 }

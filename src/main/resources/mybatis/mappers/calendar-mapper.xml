@@ -5,7 +5,7 @@
 
 
     <insert id="" parameterType="Calendar">
-        INSERT INTO `calendarDTO` VALUES (#{title}, #{start}, #{end}, #{idNo})
+        INSERT INTO `calendar` VALUES (#{title}, #{start}, #{end}, #{idNo})
     </insert>
 
 </mapper>

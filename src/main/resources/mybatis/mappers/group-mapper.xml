@@ -4,7 +4,18 @@
 <mapper namespace="com.board.mappers.GroupMapper">
 
     <insert parameterType="Group"  id="group_create">
-        INSERT INTO `groupDTO` VALUES (#{groupName},  #{createId} )
+        INSERT INTO `group` VALUES ( NULL, #{groupName}, #{createId} )
     </insert>
+
+
+
+
+    <insert id="user_group_insert" parameterType="int">
+        <selectKey keyProperty="groupNo" order="BEFORE" resultType="int">
+            SELECT max(groupNo) from `group`;
+        </selectKey>
+        INSERT INTO `user_group` VALUES (NULL, #{idNo}, #{groupNo} )
+    </insert>
+
 
 </mapper>

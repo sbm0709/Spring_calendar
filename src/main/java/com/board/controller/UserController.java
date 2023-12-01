@@ -2,6 +2,7 @@ package com.board.controller;
 
 import com.board.dto.UserDTO;
 import com.board.mappers.UserMapper;
+import com.board.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     @Autowired
     private UserMapper userMapper;
+
+
     // 유저 로그인
     @PostMapping("/login")
     public String user_login(UserDTO userDTO, HttpSession session){

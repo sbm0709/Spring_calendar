@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class GroupDTO {
+    private int groupNo;
     private String groupName;
-    private int calendarNo;
     private String createId;
 }

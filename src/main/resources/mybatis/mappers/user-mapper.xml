@@ -4,18 +4,18 @@
 <mapper namespace="com.board.mappers.UserMapper">
 
     <select id="user_login" resultType="User" parameterType="User">
-        SELECT * FROM `userDTO`
+        SELECT * FROM `user`
         WHERE id = #{id} AND pw = #{pw}
     </select>
 
     <select id="user_select" resultType="User" parameterType="User">
-        SELECT * FROM `userDTO`
+        SELECT * FROM `user`
         WHERE id = #{id}
     </select>
 
 
     <insert id="user_register" parameterType="User">
-        INSERT INTO `userDTO` VALUES (#{id}, #{pw})
+        INSERT INTO `user` VALUES (NULL, #{id}, #{pw})
     </insert>
 
 
