@@ -3,5 +3,8 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.board.mappers.GroupMapper">
 
+    <insert parameterType="Group"  id="group_create">
+        INSERT INTO `groupDTO` VALUES (#{groupName},  #{createId} )
+    </insert>
 
 </mapper>

@@ -35,7 +35,7 @@
     <main>
         <h1>글쓰기</h1>
         <form action="/board/write" method="post">
-            <div><label>작성자: <input type="text" th:value="${session.loginedUser.nick}" readonly></label></div>
+            <div><label>작성자: <input type="text" th:value="${session.loginedUserDTO.nick}" readonly></label></div>
             <div><label>제목: <input type="text" th:name="title"></label></div>
 <!--            <div><label>첨부파일: <input type="file" name="files" multiple></label></div>-->
             <div><label>내용: <textarea th:name="content"></textarea></label></div>

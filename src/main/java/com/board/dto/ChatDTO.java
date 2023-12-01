@@ -8,11 +8,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
-public class Group {
+@ToString
+public class ChatDTO {
+    private int chatNo;
+    private String Content;
     private int groupNo;
-    private String groupName;
-    private int calendarNo;
-    private int createId;
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Calendar {
+public class CalendarDTO {
     private int calendarNo;
     private String title;
     private String userContent;

@@ -4,4 +4,8 @@
 <mapper namespace="com.board.mappers.CalendarMapper">
 
 
+    <insert id="" parameterType="Calendar">
+        INSERT INTO `calendarDTO` VALUES (#{title}, #{start}, #{end}, #{idNo})
+    </insert>
+
 </mapper>

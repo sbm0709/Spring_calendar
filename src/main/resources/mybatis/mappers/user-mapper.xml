@@ -4,19 +4,25 @@
 <mapper namespace="com.board.mappers.UserMapper">
 
     <select id="user_login" resultType="User" parameterType="User">
-        SELECT * FROM `user`
+        SELECT * FROM `userDTO`
         WHERE id = #{id} AND pw = #{pw}
     </select>
 
-    <select id="user_Select" resultType="User" parameterType="User">
-        SELECT * FROM `user`
+    <select id="user_select" resultType="User" parameterType="User">
+        SELECT * FROM `userDTO`
         WHERE id = #{id}
     </select>
 
 
     <insert id="user_register" parameterType="User">
-        INSERT INTO `user` VALUES (#{id}, #{pw})
+        INSERT INTO `userDTO` VALUES (#{id}, #{pw})
     </insert>
+
+
+<!--    group에 타 유저 초대하기-->
+<!--    <insert id="user_invite" parameterType="User">-->
+<!--        INSERT INTO `userDTO` VALUES (#{id})-->
+<!--    </insert>-->
 
 
 
