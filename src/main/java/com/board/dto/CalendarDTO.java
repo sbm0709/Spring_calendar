@@ -1,10 +1,7 @@
 package com.board.dto;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class CalendarDTO {
     private int calendarNo;
     private String title;
@@ -20,4 +18,5 @@ public class CalendarDTO {
     private LocalDateTime end;
     private String calendarType;
     private int idNo;
+    private String allDay;
 }

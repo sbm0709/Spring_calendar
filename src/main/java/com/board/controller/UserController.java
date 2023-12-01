@@ -5,38 +5,48 @@ import com.board.dto.UserDTO;
 import com.board.mappers.UserMapper;
 import com.board.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Log4j2
 @Controller
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserMapper userMapper;
 
+    private final UserService userService;
 
+    private final UserMapper userMapper;
     // 유저 로그인
     @PostMapping("/login")
     public String user_login(UserDTO userDTO, HttpSession session){
-        // DB에서 전달받은 데이터로 User를 조회한다
         UserDTO loginedUserDTO = userMapper.user_login(userDTO);
-        // 조회된 유저가 없다는 것 == 로그인 실패!
+
         if(loginedUserDTO == null){
             return "redirect:/";
         }
         session.setAttribute("loginedUser", loginedUserDTO);
-        // 로그인 성공!
-        return "redirect:/board/main";
+        log.warn("login"+loginedUserDTO);
+        //캘린더 화면으로 넘어감 임시로 다른 페이지 넘어가게함
+        return "redirect:/main/calendar";
+    }
+
+    //회원가입페이지로 넘어오기
+    @GetMapping("/register")
+    public String user_register(){
+        return "/user/register";
     }
     // 유저 회원가입
     @PostMapping("/register")
     public String user_register(UserDTO userDTO){
-        // 전달받은 유저 정보로 회원가입을 시도한다
-        userMapper.user_register(userDTO);
-        return "redirect:/main";
+        userService.user_register(userDTO);
+        //메인(로그인)화면이동
+        return "redirect:/";
     }
 
     @PostMapping("/invite")

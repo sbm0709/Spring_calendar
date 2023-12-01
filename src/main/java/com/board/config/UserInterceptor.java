@@ -16,6 +16,7 @@ public class UserInterceptor implements HandlerInterceptor {
             response.sendRedirect("/main");
             return false;
         }
+
         return true;
     }
 }

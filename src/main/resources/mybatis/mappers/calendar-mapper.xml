@@ -8,4 +8,23 @@
 <!--        INSERT INTO `calendar` VALUES (#{title}, #{start}, #{end}, #{idNo})-->
 <!--    </insert>-->
 
+    <insert id="save_data" parameterType="list">
+        insert into calendar(title, start, end, allday, idNo) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.title}, #{item.start}, #{item.end}, #{item.allDay}, #{item.idNo})
+        </foreach>
+    </insert>
+
+    <delete id="delete_data" parameterType="com.board.dto.CalendarDTO" >
+        delete from calendar where title=#{title} and start=#{start};
+    </delete>
+
+    <select id="select_data" resultType="list" >
+        select * from calendar where idNo=#{idNo}
+    </select>
+
+    <select id="select_individual_data" resultType="com.board.dto.CalendarDTO" parameterType="int" >
+        select * from calendar where idNo=#{idNo} AND calendarType='individual'
+    </select>
+
 </mapper>

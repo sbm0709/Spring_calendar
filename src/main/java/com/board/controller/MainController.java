@@ -10,6 +10,7 @@ public class MainController {
     public String root(){
         return "redirect:/main";
     }
+
     @GetMapping("/main")
     public String main_view(){
         return "user/login";

@@ -16,7 +16,10 @@ public class UserService {
 
     private final UserMapper userMapper;
 
-    public void user_login(UserDTO userDTO){ userMapper.user_login(userDTO); }
+    public UserDTO user_login(UserDTO userDTO){
+        return userMapper.user_login(userDTO);
+    }
+
 
     public void user_register(UserDTO userDTO){ userMapper.user_register(userDTO); }
 
