@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales-all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                navLinks: true,
+                selectable: true,
+                selectMirror: true,
+                select: function(arg) {
+                    var title = prompt("title: ")
+                    if (title) {
+                        calendar.addEvent({
+                            title: title,
+                            start: arg.start,
+                            end: arg.end,
+                            allDay: arg.allDay
+                        })
+                    }
+                    calendar.unselect()
+                },
+                eventClick: function(arg) {
+                    if (confirm('삭제?')) {
+                        arg.event.remove();
+                    }
+                },
+                editable: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: [
+                    {
+                        title: 'All Day Event',
+                        start: '2023-01-01'
+                    },
+                ]
+            });
+            calendar.render();
+        });
+
+    </script>
+    <style>
+
+        body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        #calendar {
+            width: 1100px;
+        }
+
+        #user{
+            top: 30px;
+            padding: 0;
+            width: 200px;
+            height: 390px;
+            margin-top: 70px;
+            background-color: gainsboro;
+            border-radius: 5px;
+        }
+
+        #list{
+            margin-top: 35px;
+            padding: 0;
+            width: 200px;
+            height: 390px;
+            background-color: pink;
+            border-radius: 5px;
+
+        }
+        main{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        section{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+
+        }
+
+        #userPhoto{
+            background-color: azure;
+            width: 180px;
+            height: 230px;
+            margin: 10px 10px;
+            border-radius: 5px;
+
+        }
+
+        button{
+            width: 100px;
+        }
+
+        #buttons{
+            display: flex;
+            margin: 5px 5px;
+        }
+
+        #listDiv{
+            width: 180px;
+            height: 300px;
+            background-color: beige;
+            margin: 0 auto;
+            border-radius: 5px;
+
+        }
+
+        div{
+            text-align: center;
+        }
+
+        #leftInfo{
+            height: 900px;
+            margin-right: 50px;
+        }
+        main{
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+
+    </style>
+</head>
+<body>
+<main>
+    <section id="leftInfo">
+        <div id="user">여기능 사용자 프로필
+            <div id="userPhoto"></div>
+            <div>이름 : 김성우</div>
+            <div>나이 : $$세</div>
+            <div>소개 : 안녕하세요</div>
+        </div>
+        <div id="list">
+            <div id="buttons">
+                <button>개인</button>
+                <button>그룹</button>
+            </div>
+            <div id="listDiv">
+            </div>
+        </div>
+    </section>
+    <div id='calendar'></div>
+</main>
+</body>
+</html>
+

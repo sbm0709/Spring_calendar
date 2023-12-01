@@ -13,9 +13,9 @@
     </settings>
 
     <typeAliases>
-        <typeAlias type="com.board.dto.Board" alias="Board" />
         <typeAlias type="com.board.dto.UserDTO" alias="User" />
         <typeAlias type="com.board.dto.CalendarDTO" alias="Calendar" />
         <typeAlias type="com.board.dto.GroupDTO" alias="Group" />
+        <typeAlias type="com.board.dto.UserGroupDTO" alias="UserGroup" />
     </typeAliases>
 </configuration>
