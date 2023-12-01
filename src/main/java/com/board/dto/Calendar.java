@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 public class Calendar {
+    private int calendarNo;
     private String title;
     private String userContent;
     private LocalDateTime start;

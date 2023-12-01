@@ -11,8 +11,11 @@
         <setting name="lazyLoadingEnabled" value="true"/>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+
     <typeAliases>
         <typeAlias type="com.board.dto.Board" alias="Board" />
         <typeAlias type="com.board.dto.User" alias="User" />
+        <typeAlias type="com.board.dto.Calendar" alias="Calendar" />
+        <typeAlias type="com.board.dto.Group" alias="Group" />
     </typeAliases>
 </configuration>

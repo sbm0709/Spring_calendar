@@ -9,6 +9,10 @@ public interface UserMapper {
     void user_register(User user);
     // 유저 로그인
     User user_login(User user);
+
+
+    User user_Select(User user);
+
 }
 
 
