@@ -35,10 +35,7 @@ public class UserController {
 
         //로그인 성공 시 유저가 속한 groupNo 세션에 넘겨주기
         session.setAttribute("loginedUser", loginedUserDTO);
-        if(userService.user_belong_groupNo(loginedUserDTO) != null){
-            session.setAttribute("belongGroup", userService.user_belong_groupNo(loginedUserDTO));
-            log.warn("belongGroup : " + userService.user_belong_groupNo(loginedUserDTO));
-        }
+
 
         log.warn("login"+loginedUserDTO);
 

@@ -36,6 +36,11 @@ public class CalendarService {
         calendarMapper.update_data(cal, oldCal);
     }
 
+    public void save_group_data(CalendarDTO calendarDTO) {
+        calendarMapper.save_group_data(calendarDTO);
+    }
+
+    public List<CalendarDTO> select_list(int idNo) {return calendarMapper.select_list(idNo);}
 
 
 }

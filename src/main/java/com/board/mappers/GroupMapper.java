@@ -29,7 +29,7 @@ public interface GroupMapper {
     List<Integer> user_belong_group_select(UserDTO userDTO);
 
 
-    //그룹 넘버 가지고 그룹 이름 가져오기
-    String user_belong_group_name_select(int groupNo);
+    //그룹 넘버 가지고 그룹들 가져오기
+    GroupDTO user_belong_groups_select(int groupNo);
 
 }

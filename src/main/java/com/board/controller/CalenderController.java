@@ -1,14 +1,17 @@
 package com.board.controller;
 
 import com.board.dto.CalendarDTO;
+import com.board.dto.GroupDTO;
 import com.board.dto.UserDTO;
 import com.board.formatter.LocalDateFormatter;
 import com.board.mappers.CalendarMapper;
 import com.board.service.CalendarService;
 import com.board.service.GroupService;
+import com.board.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,19 +29,24 @@ public class CalenderController {
 
     private final CalendarService calendarService;
     private final GroupService groupService;
+    private final UserService userService;
 
     // 유저 검색 후 결과 조회
 
     @GetMapping("main/calendar")
     public String select(Model model,HttpSession session) {
-        List<String> groupNames = new ArrayList<String>();
-        if(session.getAttribute("belongGroup") != null) {
-            for (Integer groupNo : (List<Integer>) session.getAttribute("belongGroup")) {
+        List<GroupDTO> groups = new ArrayList<GroupDTO>();
+        UserDTO loginedUserDTO = (UserDTO) session.getAttribute("loginedUser");
+        log.warn(loginedUserDTO);
+
+        if(userService.user_belong_groupNo(loginedUserDTO) != null){
+            for (Integer groupNo : userService.user_belong_groupNo(loginedUserDTO)) {
                 log.warn("참여중인 그룹 : " + groupService.Select_user_group(groupNo));
-                groupNames.add(groupService.Select_user_group(groupNo));
+                groups.add(groupService.Select_user_group(groupNo));
             }
-        }
-        model.addAttribute("belongGroup", groupNames);
+    }
+        model.addAttribute("belongGroup", groups);
+        model.addAttribute("selectedList", calendarService.select_list(loginedUserDTO.getIdNo()));
         return "main/calendar";
     }
 
@@ -65,10 +73,23 @@ public class CalenderController {
     // db 전송
     @ResponseBody
     @PostMapping("/set")
-    public List<CalendarDTO> set_data(HttpSession session) {
+    public List<CalendarDTO> set_data(
+            HttpSession session,
+            @RequestParam(required = false) String groupName
+            ) {
+
         UserDTO userDTO = (UserDTO) session.getAttribute("loginedUser");
+
         return calendarService.select_individual_data(userDTO.getIdNo());
     }
+
+    // 그룹 일정 가져오기
+    @ResponseBody
+    @PostMapping("/set_group")
+    public void set_group_data(int groupNo) {
+
+    }
+
 
     //수정
     @ResponseBody

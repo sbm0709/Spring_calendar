@@ -26,5 +26,9 @@ public interface CalendarMapper {
 
     void update_data(CalendarDTO calendarDTO, CalendarDTO oldCalendarDTO);
 
+    void save_group_data(CalendarDTO calendarDTO);
+
+    List<CalendarDTO> select_list(int idNo);
+
 
 }

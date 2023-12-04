@@ -31,7 +31,7 @@ public class UserService {
         return userMapper.user_select(id);
     }
 
-
+    // 현재 참여중인 그룹no들
     public List<Integer> user_belong_groupNo(UserDTO userDTO){
         return groupMapper.user_belong_group_select(userDTO);
     }

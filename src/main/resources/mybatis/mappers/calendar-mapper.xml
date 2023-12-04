@@ -19,6 +19,10 @@
         insert into calendar(title, start, end, allday, idNo) values(#{title}, #{start}, #{end}, #{allDay}, #{idNo})
     </insert>
 
+    <insert id="save_group_data" parameterType="com.board.dto.CalendarDTO" >
+        insert into calendar(title, start, end, allday, idNo, groupNo, CalendarType) values(#{title}, #{start}, #{end}, #{allDay}, #{idNo} ,#{groupNo},'group')
+    </insert>
+
     <delete id="delete_data" parameterType="com.board.dto.CalendarDTO" >
         delete from calendar where title=#{title} and start=#{start};
     </delete>

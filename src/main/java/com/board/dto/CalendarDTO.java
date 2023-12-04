@@ -19,4 +19,5 @@ public class CalendarDTO {
     private String calendarType;
     private int idNo;
     private String allDay;
+    private int groupNo;
 }

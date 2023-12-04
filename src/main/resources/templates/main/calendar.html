@@ -19,7 +19,7 @@
         var calendar = null;
         document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
-
+        var flag = '0';
         calendarObect = {
             headerToolbar: {
                 left: 'prev,next today',
@@ -30,6 +30,7 @@
             navLinks: true, // can click day/week names to navigate views
             selectable: true,
             selectMirror: true,
+            editable: true,
             locale: 'ko',
             select: function (arg) {
                 var title = prompt('Event Title:');
@@ -59,7 +60,6 @@
                     arg.event.remove() // 여기서 리무브를 시키면 안되고 db에 삭제를 시켜야 한다.
                 }
                 console.log(arg.event);
-                let events = new Array();
                 let obj = {
                     title: arg.event._def.title,
                     start: arg.event._instance.range.start
@@ -88,21 +88,37 @@
                 update_data(obj, oldObj);
 
             },
-            editable: true,
             dayMaxEvents: true, // allow "more" link when too many events
-            events: function (info, successCallback, failureCallback) {
-                $.ajax({
-                    url: '/set',
-                    type: 'post',
-                    dataType: 'json',
-                    success: function (data) {
-                        successCallback(data);
-                    },
-                    error: function (error) {
-                        console.log(error)
+            events:
+                function (info, successCallback, failureCallback) {
+                    if (flag === '0') {
+                        $.ajax({
+                            url: '/set',
+                            type: 'post',
+                            dataType: 'json',
+                            success: function (data) {
+                                successCallback(data);
+                            },
+                            error: function (error) {
+                                console.log(error)
+                            }
+                        })
+                    } else if(flag === '1') {
+                        $.ajax({
+                            url: '/set_group',
+                            type: 'post',
+                            data: {groupName : flag},
+                            dataType: 'json',
+                            success: function () {
+
+                            },
+                            error: function () {
+
+                            }
+                        })
                     }
-                })
-            }
+                }
+
         }
 
 
@@ -112,26 +128,6 @@
             });
 
 
-            // 이거 못 쓰겠네..
-            // function get_data() {
-            //     let allEvents = calendar.getEvents();
-            //     let eventArr = new Array();
-            //
-            //     console.log(allEvents);
-            //
-            //     for (let i = 0; i < allEvents.length; i++) {
-            //     let obj = {
-            //     title : allEvents[i]._def.title,
-            //     start : allEvents[i]._instance.range.start,
-            //     end : allEvents[i]._instance.range.end,
-            //     allDay: allEvents[i]._def.allDay
-            //     }
-            //     // save_data(obj);
-            //     eventArr.push(obj);
-            //     }
-            //     // console.log(eventArr)
-            //     save_data(eventArr);
-            // }
 
             function save_data(obj) {
                 $.ajax({
@@ -172,7 +168,7 @@
                 let objList = [obj, oldObj]
                 $.ajax({
                     url: "/update",
-                    type: 'post',
+                    type: 'patch',
                     data: JSON.stringify(objList),
                     dataType: 'json',
                     contentType: "application/json",
@@ -184,6 +180,7 @@
                     }
                 })
             }
+
 
 
     </script>
@@ -207,8 +204,8 @@
             top: 30px;
             padding: 0;
             width: 200px;
-            height: 350px;
-            margin-top: 70px;
+            height: 31%;
+            margin-top: 50px;
             background-color: cornsilk;
             border-radius: 5px;
             border: 1px solid black;
@@ -218,30 +215,28 @@
             margin-top: 35px;
             padding: 0;
             width: 200px;
-            height: 350px;
+            height: 25%;
             background-color: cornsilk;
             border-radius: 5px;
             border:1px solid black;
-
         }
         main{
             display: flex;
             justify-content: space-between;
+            width: 1500px;
+            height: 950px;
         }
 
         section{
             position: relative;
             display: flex;
             flex-direction: column;
-            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-
         }
 
         #userPhoto{
-            /*background-image: url("야옹이.jpg");*/
+            background-image: none;
             width: 180px;
-            background-color: aquamarine;
-            height: 230px;
+            height: 76%;
             margin: 0 auto;
             top: 0;
 
@@ -251,7 +246,7 @@
         }
 
         button{
-            width: 90px;
+            width: 50%;
             background-color: rgba(15, 42, 56, 80%);
             color: white;
         }
@@ -272,14 +267,30 @@
         }
 
 
-        ul{
+        li{
             width: 180px;
-            height: 30px;
-            background-color: rgba(161, 161, 161, 30%);
+            height: 22%;
+            background-color: rgba(161, 161, 161, 40%);
             margin: 5px 5px;
             border-radius: 5px;
             padding: 5px;
             text-align: center;
+        }
+
+        .plist_name{
+            font-size: 1.3rem;
+            height: 30px;
+            width: 180px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .plist_date{
+            font-size: 0.8rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
 
@@ -288,7 +299,7 @@
         }
 
         #leftInfo{
-            height: 900px;
+            height: 1000px;
             margin-right: 50px;
             font-family: 'Jua', sans-serif;
             font-size: large;
@@ -299,11 +310,11 @@
             justify-content: center;
         }
 
-        #profile_id{
-            font-size: 1.8rem;
+        #profile{
+            font-size: 1.5rem;
         }
 
-        #profile_word{
+        span{
             font-size: 1rem;
         }
 
@@ -315,29 +326,40 @@
         }
 
         #add{
-            width: 190px;
-            bottom: 5px;
+            width: 95%;
+            bottom: 7%;
             position: absolute;
+            margin: 0 auto;
             left: 5px;
         }
 
-        #list2{
+        #list1{
             position: relative;
             display: inline-block;
         }
 
         .lists{
             scrollbar-width: none;
-            height: 180px;
-            overflow: scroll;
+            height: 210px;
             overflow-y: auto;
             -ms-scroll-snap-type: none;
-            padding: 0 0;
+            padding:0 0;
+            margin: 0;
+        }
+        ul{
+            list-style: none;
         }
 
         .lists::-webkit-scrollbar-thumb{
-            height: 180px;
+            height: 100%;
             background-color: transparent;
+        }
+
+        .grp {
+            height: 17%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
         .lists::-webkit-scrollbar-track {
@@ -348,18 +370,23 @@
             width: 0;
         }
 
+        #list2 > .lists {
+            height: 180px;
+        }
+
     </style>
 </head>
 <body>
 <main>
     <section id="leftInfo">
         <div id="user">
-            <div><span id="profile_id" th:text="${session.loginedUser.getId()}"></span><span id="profile_word"> 님, 환영합니다</span></div>
-            <div id="userPhoto"></div>
+            <div><span id="profile" th:text="${session.loginedUser.getId()}"></span><span id="profile_word"> 님, 환영합니다</span></div>
+            <div id="userPhoto"><img width="180" height="230" th:src="@{http://localhost:8080/user/profile_download/${session.loginedUser.getProfile()}}" alt="프로필 이미지"></div>
             <div id="buttons">
-                <button>로그인</button>
-                <button>회원가입</button>
+                <button>로그아웃</button>
+                <button>회원탈퇴</button>
             </div>
+<!--            <input id="flag" type="hidden" value="0">-->
         </div>
         <div id="list1">
             <div class="list_name">개인</div>
@@ -371,10 +398,10 @@
         </div>
         <div id="list2">
             <div class="list_name">그룹</div>
-            <div class="lists">
-                <ul th:each="belongGroup : ${belongGroup}" th:text="${belongGroup}"></ul>
-            </div>
-            <button id="add">그룹 생성하기</button>
+            <ul class="lists">
+                <li class="grp" th:each="groupDTO : ${belongGroup}" th:text="${groupDTO.groupName}" th:attr="onclick=|direct_group('${groupDTO.groupNo}')|"></li>
+            </ul>
+            <button id="add" onclick="group_create()">그룹 생성하기</button>
         </div>
 
     </section>
@@ -384,3 +411,37 @@
 </body>
 </html>
 
+<script th:inline="javascript">
+    let flag = document.getElementById('flag').value;
+    console.log(flag);
+
+
+    function group_create(){
+        let groupName = prompt("생성할 그룹 이름을 적어주세요");
+
+        const form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', "/group/create");
+
+        const data_1 = document.createElement('input');
+        data_1.setAttribute('type', 'hidden'); // type = hidden
+        data_1.setAttribute('name', 'groupName');
+        data_1.setAttribute('value', groupName);
+
+        form.appendChild(data_1);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function direct_group(groupNo){
+        // flag = this.value;
+
+        console.log(groupNo)
+
+    }
+
+
+
+
+
+</script>
