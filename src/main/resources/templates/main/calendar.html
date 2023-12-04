@@ -131,8 +131,8 @@
 
             function save_data(obj) {
                 $.ajax({
-                    type: 'post',
                     url: '/save',
+                    type: 'post',
                     data: JSON.stringify(obj),
                     dataType: 'json',
                     contentType: "application/json",
@@ -154,10 +154,10 @@
                     dataType: 'json',
                     contentType: "application/json",
                     success: function (data) {
-                        alert("성공")
+                        console.log(data)
                     },
                     error: function (error) {
-                        alert("실패");
+                        console.log(error)
                     }
                 })
             }
@@ -197,7 +197,7 @@
         }
 
         #calendar{
-            width: 1100px;
+           width: 1100px;
         }
 
         #user{
@@ -390,11 +390,12 @@
         </div>
         <div id="list1">
             <div class="list_name">개인</div>
-            <div class="lists">
-                <ul>프로젝트 완성</ul>
-                <ul>토요일 회식</ul>
-                <ul>영화 보러가기</ul>
-            </div>
+            <ul class="lists" >
+                <li th:each="calendarDTO : ${selectedList}">
+                    <div class="plist_name" th:text="${calendarDTO.title}"></div>
+                    <div class="plist_date" th:text="${#temporals.format(calendarDTO.start,'yyyy-MM-dd')}"></div>
+                </li>
+            </ul>
         </div>
         <div id="list2">
             <div class="list_name">그룹</div>

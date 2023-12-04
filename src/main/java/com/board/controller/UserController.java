@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -50,10 +52,19 @@ public class UserController {
 
     // 유저 회원가입
     @PostMapping("/register")
-    public String user_register(UserDTO userDTO){
-        userService.user_register(userDTO);
+    public String user_register(UserDTO userDTO, MultipartFile fileData){
+        userService.user_register(userDTO, fileData);
         //메인(로그인)화면이동
         return "redirect:/";
+    }
+
+    //프로필 사진 표시
+    @ResponseBody
+    @GetMapping("/profile_download/{userID}")
+    public byte[] view_profile(HttpSession session){
+        UserDTO loginedUserDTO = (UserDTO) session.getAttribute("loginedUser");
+        log.info(loginedUserDTO.getIdNo());
+        return loginedUserDTO.getProfile();
     }
 
     @PostMapping("/invite")
@@ -61,5 +72,22 @@ public class UserController {
 
         userService.group_invite_user(id, groupDTO);
         return "redirect:/main/calendar";
+    }
+
+    @PostMapping("/logout")
+    public String user_logout(HttpSession session){
+        //UserDTO loginedUserDTO = userMapper.user_login(userDTO);
+        session.removeAttribute("loginedUser");
+
+        return "redirect:/main";
+    }
+    //회원탈퇴 - db정보 지우기
+    @PostMapping("/delete")
+    public String user_delete(HttpSession session){
+        log.info("회원 탈퇴");
+        session.getAttribute("loginedUser");
+        log.info(session.getAttribute("loginedUser"));
+        userMapper.user_delete(session);
+        return "redirect:/main";
     }
 }

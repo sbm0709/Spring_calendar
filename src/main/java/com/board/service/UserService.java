@@ -9,6 +9,7 @@ import com.board.mappers.GroupMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,10 +26,23 @@ public class UserService {
     }
 
 
-    public void user_register(UserDTO userDTO){ userMapper.user_register(userDTO); }
+    public void user_register(UserDTO userDTO, MultipartFile fileData) {
+        try {
+            byte[] data = fileData.getBytes();
+            userMapper.user_register(userDTO, data);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
 
-    public UserDTO user_select(String id){
-        return userMapper.user_select(id);
+    public UserDTO selectUser(UserDTO userDTO){
+        return userMapper.user_select(userDTO.getId());
+    }
+
+    public UserDTO selectUser(String userID){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(userID);
+        return userMapper.user_select(userDTO.getId());
     }
 
     // 현재 참여중인 그룹no들
@@ -63,6 +77,6 @@ public class UserService {
         userMapper.user_group_secession(
                 new UserGroupDTO(userMapper.user_select(id).getIdNo(),
                 groupDTO.getGroupNo()));
-        log.warn("탈퇴성공");
+        log.warn("탈퇴 성공");
     }
 }

@@ -32,6 +32,7 @@ public class CalendarService {
         return calendarMapper.select_individual_data(idNo);
     }
 
+
     public void update_data(CalendarDTO cal, CalendarDTO oldCal) {
         calendarMapper.update_data(cal, oldCal);
     }

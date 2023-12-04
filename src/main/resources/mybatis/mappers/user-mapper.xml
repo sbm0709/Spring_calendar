@@ -15,8 +15,13 @@
 
 
     <insert id="user_register" parameterType="UserDTO">
-        INSERT INTO `user` VALUES (NULL, #{id}, #{pw})
+        INSERT INTO `user` VALUES (NULL ,#{userDTO.id}, #{userDTO.pw}, #{data})
     </insert>
+
+    <delete id="user_delete">
+        DELETE FROM `user`
+        WHERE id = #{id};
+    </delete>
 
 
 <!--    group에 타 유저 초대하기-->
@@ -39,6 +44,7 @@
     <delete id="user_group_secession" parameterType="UserGroupDTO">
         DELETE FROM `user_group` WHERE idNo = #{idNo} AND groupNo = #{groupNo}
     </delete>
+
 
 
 </mapper>

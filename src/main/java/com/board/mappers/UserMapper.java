@@ -3,12 +3,14 @@ package com.board.mappers;
 import com.board.dto.GroupDTO;
 import com.board.dto.UserDTO;
 import com.board.dto.UserGroupDTO;
+import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
     // 유저 회원가입
-    void user_register(UserDTO userDTO);
+    void user_register(@Param("userDTO") UserDTO userDTO, @Param("data") byte[] data);
 
     // 유저 로그인
     UserDTO user_login(UserDTO userDTO);
@@ -24,6 +26,9 @@ public interface UserMapper {
 
     // 그룹 탈퇴
     void user_group_secession(UserGroupDTO userGroupDTO);
+
+
+    void user_delete(HttpSession session);
 }
 
 

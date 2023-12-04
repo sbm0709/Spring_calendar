@@ -18,7 +18,7 @@ public class ChatService {
 
     public void insert_chat(ChatDTO chatDTO){
         chatMapper.chat_insert(chatDTO);
-        log.warn("체팅 치기~");
+        log.warn("채팅 치기~");
     }
 
 

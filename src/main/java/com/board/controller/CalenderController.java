@@ -50,6 +50,8 @@ public class CalenderController {
         return "main/calendar";
     }
 
+
+
     // 수정사항 저장
     @ResponseBody
     @PostMapping("/save")
@@ -70,7 +72,7 @@ public class CalenderController {
         calendarService.delete_data(calendarDTO);
     }
 
-    // db 전송
+    // 개인 일정 가져오기
     @ResponseBody
     @PostMapping("/set")
     public List<CalendarDTO> set_data(
@@ -81,6 +83,7 @@ public class CalenderController {
         UserDTO userDTO = (UserDTO) session.getAttribute("loginedUser");
 
         return calendarService.select_individual_data(userDTO.getIdNo());
+
     }
 
     // 그룹 일정 가져오기
@@ -93,10 +96,8 @@ public class CalenderController {
 
     //수정
     @ResponseBody
-    @PostMapping("/update")
+    @PatchMapping("/update")
     public void update_data(@RequestBody List<CalendarDTO> calList) {
-
         calendarService.update_data(calList.get(0), calList.get(1));
-
     }
 }
