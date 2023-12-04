@@ -29,6 +29,8 @@ public class GroupService {
         log.warn("user_group_insert 성공");
     }
 
+    public String Select_user_group(int groupNo){return groupMapper.user_belong_group_name_select(groupNo);}
+
 
 
 

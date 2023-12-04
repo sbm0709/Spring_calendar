@@ -2,6 +2,7 @@ package com.board.mappers;
 
 
 import com.board.dto.CalendarDTO;
+import com.board.dto.GroupDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,5 +21,10 @@ public interface CalendarMapper {
     List<CalendarDTO> select_data(int idNo);
 
     List<CalendarDTO> select_individual_data(int idNo);
+
+    List<CalendarDTO> select_group_data(GroupDTO groupDTO);
+
+    void update_data(CalendarDTO calendarDTO, CalendarDTO oldCalendarDTO);
+
 
 }

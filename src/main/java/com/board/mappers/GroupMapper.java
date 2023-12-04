@@ -21,8 +21,15 @@ public interface GroupMapper {
     //그룹 삭제
     void group_delete(GroupDTO groupDTO);
 
-    //그룹 내 사용자들 no 가져오기 찾기
+    //그룹 내 user No 가져오기
     List<Integer> in_group_user_select(GroupDTO groupDTO);
 
+
+    //자신이 소속된 그룹No 가져오기
+    List<Integer> user_belong_group_select(UserDTO userDTO);
+
+
+    //그룹 넘버 가지고 그룹 이름 가져오기
+    String user_belong_group_name_select(int groupNo);
 
 }

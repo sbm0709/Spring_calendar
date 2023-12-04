@@ -27,4 +27,13 @@
         select * from calendar where idNo=#{idNo} AND calendarType='individual'
     </select>
 
+    <select id="select_group_data" resultType="com.board.dto.CalendarDTO" parameterType="GroupDTO" >
+        select * from calendar where groupNo=#{groupNo} AND calendarType='group'
+    </select>
+
+    <update id="update_data" parameterType="com.board.dto.CalendarDTO" >
+        update calendar set `start` = #{calendarDTO.start}, `end` = #{calendarDTO.end}
+        where title=#{oldCalendarDTO.title} and `start`=#{oldCalendarDTO.start} and `end`=#{oldCalendarDTO.end}
+    </update>
+
 </mapper>

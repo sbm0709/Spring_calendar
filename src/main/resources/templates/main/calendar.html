@@ -131,6 +131,10 @@
 
     </script>
     <style>
+        *{
+            font-family: 'Jua', sans-serif;
+        }
+
         body {
             margin: 40px 10px;
             padding: 0;
@@ -138,7 +142,7 @@
             font-size: 14px;
         }
 
-        #calendar {
+        #calendar{
             width: 1100px;
         }
 
@@ -146,19 +150,21 @@
             top: 30px;
             padding: 0;
             width: 200px;
-            height: 390px;
+            height: 350px;
             margin-top: 70px;
-            background-color: gainsboro;
+            background-color: cornsilk;
             border-radius: 5px;
+            border: 1px solid black;
         }
 
-        #list{
+        #list1, #list2{
             margin-top: 35px;
             padding: 0;
             width: 200px;
-            height: 390px;
-            background-color: pink;
+            height: 350px;
+            background-color: cornsilk;
             border-radius: 5px;
+            border:1px solid black;
 
         }
         main{
@@ -175,31 +181,50 @@
         }
 
         #userPhoto{
-            background-color: azure;
+            /*background-image: url("야옹이.jpg");*/
             width: 180px;
+            background-color: aquamarine;
             height: 230px;
-            margin: 10px 10px;
-            border-radius: 5px;
+            margin: 0 auto;
+            top: 0;
 
+            border-radius: 5px;
+            background-size: cover;
+            background-position: center;
         }
 
         button{
-            width: 100px;
+            width: 90px;
+            background-color: rgba(15, 42, 56, 80%);
+            color: white;
+        }
+
+        button:hover{
+            background-color: #f6dade;
+            color: black;
         }
 
         #buttons{
             display: flex;
             margin: 5px 5px;
+            padding: 5px 5px;
         }
 
-        #listDiv{
+        button + button{
+            margin-left: 10px;
+        }
+
+
+        ul{
             width: 180px;
-            height: 300px;
-            background-color: beige;
-            margin: 0 auto;
+            height: 30px;
+            background-color: rgba(161, 161, 161, 30%);
+            margin: 5px 5px;
             border-radius: 5px;
-
+            padding: 5px;
+            text-align: center;
         }
+
 
         div{
             text-align: center;
@@ -208,6 +233,8 @@
         #leftInfo{
             height: 900px;
             margin-right: 50px;
+            font-family: 'Jua', sans-serif;
+            font-size: large;
         }
         main{
             margin: 0 auto;
@@ -215,40 +242,86 @@
             justify-content: center;
         }
 
+        #profile_id{
+            font-size: 1.8rem;
+        }
+
+        #profile_word{
+            font-size: 1rem;
+        }
+
+
+        .list_name{
+            margin: 5px 5px;
+            background-color: rgba(209, 239, 255, 0.8);
+
+        }
+
+        #add{
+            width: 190px;
+            bottom: 5px;
+            position: absolute;
+            left: 5px;
+        }
+
+        #list2{
+            position: relative;
+            display: inline-block;
+        }
+
+        .lists{
+            scrollbar-width: none;
+            height: 180px;
+            overflow: scroll;
+            overflow-y: auto;
+            -ms-scroll-snap-type: none;
+            padding: 0 0;
+        }
+
+        .lists::-webkit-scrollbar-thumb{
+            height: 180px;
+            background-color: transparent;
+        }
+
+        .lists::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        .lists::-webkit-scrollbar{
+            width: 0;
+        }
 
     </style>
 </head>
 <body>
 <main>
-    <button onclick="get_data()">테스트용</button>
-
-    <!--    <form action="/group/create" method="post" >-->
-<!--        <input type="text" value="그룹버튼 테스트용" th:name="groupName">-->
-<!--        <button>생성</button>-->
-<!--    </form>-->
-
-<!--    <form action="/user/invite" method="post" >-->
-<!--        <input type="text" value="그룹 초대할 id" th:name="id">-->
-<!--        <input type="number" value="임시 초대 그룹 no" th:name="groupNo">-->
-<!--        <button>생성</button>-->
-<!--    </form>-->
-
     <section id="leftInfo">
-        <div id="user">여기능 사용자 프로필
+        <div id="user">
+            <div><span id="profile_id" th:text="${session.loginedUser.getId()}"></span><span id="profile_word"> 님, 환영합니다</span></div>
             <div id="userPhoto"></div>
-            <div>이름 : 김성우</div>
-            <div>나이 : $$세</div>
-            <div>소개 : 안녕하세요</div>
-        </div>
-        <div id="list">
             <div id="buttons">
-                <button>개인</button>
-                <button>그룹</button>
-            </div>
-            <div id="listDiv">
+                <button>로그인</button>
+                <button>회원가입</button>
             </div>
         </div>
+        <div id="list1">
+            <div class="list_name">개인</div>
+            <div class="lists">
+                <ul>프로젝트 완성</ul>
+                <ul>토요일 회식</ul>
+                <ul>영화 보러가기</ul>
+            </div>
+        </div>
+        <div id="list2">
+            <div class="list_name">그룹</div>
+            <div class="lists">
+                <ul th:each="belongGroup : ${belongGroup}" th:text="${belongGroup}"></ul>
+            </div>
+            <button id="add">그룹 생성하기</button>
+        </div>
+
     </section>
+
     <div id='calendar'></div>
 </main>
 </body>

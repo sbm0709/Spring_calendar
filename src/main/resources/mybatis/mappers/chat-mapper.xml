@@ -4,4 +4,20 @@
 <mapper namespace="com.board.mappers.ChatMapper">
 
 
+<!--    <insert id="chat_create" parameterType="GroupDTO" >-->
+<!--        INSERT INTO `chat` VALUES ( NULL, NULL, #{groupNo} )-->
+<!--    </insert>-->
+
+
+<!--     체팅 치기-->
+    <insert id="chat_insert" parameterType="ChatDTO" >
+        INSERT INTO `chat` VALUES ( NULL, #{Content}, #{groupNo} )
+    </insert>
+
+
+<!--    원하는 그룹 체팅들 긁어오기-->
+    <select id="chat_select" parameterType="GroupDTO">
+        SELECT * FROM `chat` WHERE groupNo = #{groupNo}
+    </select>
+
 </mapper>

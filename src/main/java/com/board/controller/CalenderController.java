@@ -4,6 +4,7 @@ import com.board.dto.CalendarDTO;
 import com.board.dto.UserDTO;
 import com.board.mappers.CalendarMapper;
 import com.board.service.CalendarService;
+import com.board.service.GroupService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,6 +21,7 @@ import java.util.List;
 public class CalenderController {
 
     private final CalendarService calendarService;
+    private final GroupService groupService;
 
     // 유저 검색 후 결과 조회
 

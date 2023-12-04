@@ -22,6 +22,28 @@
     </delete>
 
 
+<!--    그룹 가입자들 번호 찾기-->
+    <select id="in_group_user_select" parameterType="GroupDTO">
+        SELECT ug.idNo FROM `group` g
+        left join `user_group` ug
+        on g.groupNo = ug.groupNo
+        Where ug.groupNo = #{groupNo};
+    </select>
+
+<!--    자신이 소속된 그룹번호 찾기-->
+    <select id="user_belong_group_select" parameterType="UserDTO">
+        SELECT g.groupNo FROM `group` g
+        left join `user_group` ug
+        on g.groupNo = ug.groupNo
+        Where ug.idNo = #{idNo};
+    </select>
+
+    <select id="user_belong_group_name_select" parameterType="int">
+        SELECT g.groupName FROM `group` g
+        WHERE g.groupNo = #{groupNo}
+    </select>
+
+
 
 
 </mapper>
