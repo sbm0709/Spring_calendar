@@ -19,7 +19,11 @@
         var calendar = null;
         document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
-        var flag = '0';
+
+        // 여기까지 오는지를 잘 모르겠음 왜 set_group갈때는 noll로 바뀌는 거지
+        var groupNo = [[${groupNo}]];
+            console.log("여기는 script"+[[${groupNo}]]);
+
         calendarObect = {
             headerToolbar: {
                 left: 'prev,next today',
@@ -91,7 +95,7 @@
             dayMaxEvents: true, // allow "more" link when too many events
             events:
                 function (info, successCallback, failureCallback) {
-                    if (flag === '0') {
+                    if (groupNo === null) {
                         $.ajax({
                             url: '/set',
                             type: 'post',
@@ -103,11 +107,11 @@
                                 console.log(error)
                             }
                         })
-                    } else if(flag === '1') {
+                    } else {
                         $.ajax({
                             url: '/set_group',
                             type: 'post',
-                            data: {groupName : flag},
+                            data: {groupName : groupNo},
                             dataType: 'json',
                             success: function () {
 
@@ -435,10 +439,21 @@
     }
 
     function direct_group(groupNo){
-        // flag = this.value;
 
-        console.log(groupNo)
+        console.log("main - direct_group_groupNo : "+groupNo)
 
+        const form = document.createElement('form');
+        form.setAttribute('method', 'get');
+        form.setAttribute('action', "/main/calendar");
+
+        const data_1 = document.createElement('input');
+        data_1.setAttribute('type', 'hidden'); // type = hidden
+        data_1.setAttribute('name', 'groupNo');
+        data_1.setAttribute('value', groupNo);
+
+        form.appendChild(data_1);
+        document.body.appendChild(form);
+        form.submit();
     }
 
 

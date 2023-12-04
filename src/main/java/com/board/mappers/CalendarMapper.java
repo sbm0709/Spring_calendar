@@ -22,7 +22,7 @@ public interface CalendarMapper {
 
     List<CalendarDTO> select_individual_data(int idNo);
 
-    List<CalendarDTO> select_group_data(GroupDTO groupDTO);
+    List<CalendarDTO> select_group_data(int groupNo);
 
     void update_data(CalendarDTO calendarDTO, CalendarDTO oldCalendarDTO);
 

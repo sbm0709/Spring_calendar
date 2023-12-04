@@ -34,17 +34,25 @@ public class CalenderController {
     // 유저 검색 후 결과 조회
 
     @GetMapping("main/calendar")
-    public String select(Model model,HttpSession session) {
+    public String select(
+            Model model,
+            HttpSession session,
+            @RequestParam(required = false) String groupNo
+    ) {
+
         List<GroupDTO> groups = new ArrayList<GroupDTO>();
         UserDTO loginedUserDTO = (UserDTO) session.getAttribute("loginedUser");
+
         log.warn(loginedUserDTO);
+        log.warn("groupNo : "+ groupNo);
 
         if(userService.user_belong_groupNo(loginedUserDTO) != null){
-            for (Integer groupNo : userService.user_belong_groupNo(loginedUserDTO)) {
-                log.warn("참여중인 그룹 : " + groupService.Select_user_group(groupNo));
-                groups.add(groupService.Select_user_group(groupNo));
+            for (Integer groupNum : userService.user_belong_groupNo(loginedUserDTO)) {
+                log.warn("참여중인 그룹 : " + groupService.Select_user_group(groupNum));
+                groups.add(groupService.Select_user_group(groupNum));
             }
-    }
+        }
+        model.addAttribute("groupNo", groupNo);
         model.addAttribute("belongGroup", groups);
         model.addAttribute("selectedList", calendarService.select_list(loginedUserDTO.getIdNo()));
         return "main/calendar";
@@ -75,13 +83,8 @@ public class CalenderController {
     // 개인 일정 가져오기
     @ResponseBody
     @PostMapping("/set")
-    public List<CalendarDTO> set_data(
-            HttpSession session,
-            @RequestParam(required = false) String groupName
-            ) {
-
+    public List<CalendarDTO> set_data(HttpSession session) {
         UserDTO userDTO = (UserDTO) session.getAttribute("loginedUser");
-
         return calendarService.select_individual_data(userDTO.getIdNo());
 
     }
@@ -89,8 +92,9 @@ public class CalenderController {
     // 그룹 일정 가져오기
     @ResponseBody
     @PostMapping("/set_group")
-    public void set_group_data(int groupNo) {
-
+    public List<CalendarDTO> set_group_data(String groupNo) {
+        log.warn(groupNo);
+        return calendarService.select_group_data(Integer.parseInt(groupNo));
     }
 
 
