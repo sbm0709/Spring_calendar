@@ -15,5 +15,5 @@ public class UserDTO {
     private int idNo;
     private String id;
     private String pw;
-    private File profile;
+    private byte[] profile;
 }

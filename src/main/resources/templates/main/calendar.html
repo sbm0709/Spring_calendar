@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset='utf-8' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales-all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
     <script th:inline="javascript">
         // var calList = [[${calData}]];
         // var calList2 = [[${session}]];
@@ -17,46 +22,88 @@
 
         calendarObect = {
             headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             // initialDate: '2023-01-12',
             navLinks: true, // can click day/week names to navigate views
             selectable: true,
             selectMirror: true,
             locale: 'ko',
-            select: function(arg) {
-            var title = prompt('Event Title:');
-            if (title) {
-                calendar.addEvent({
-                title: title,
-                start: arg.start,
-                end: arg.end,
-                allDay: arg.allDay
-            })
-            }
-            calendar.unselect()
+            select: function (arg) {
+                var title = prompt('Event Title:');
+                if (title) {
+                    console.log(arg.start);
+                    console.log(arg.end);
+
+                    let obj = {
+                        title: title,
+                        start: arg.start,
+                        end: arg.end,
+                        allDay: arg.allDay
+                    }
+                    save_data(obj);
+                    // calendar.addEvent({
+                    //
+                    //     title: title,
+                    //     start: arg.start,
+                    //     end: arg.end,
+                    //     allDay: arg.allDay
+                    // })
+                }
+                calendar.unselect()
             },
-            eventClick: function(arg) {
-            if (confirm('Are you sure you want to delete this event?')) {
-                arg.event.remove() // 여기서 리무브를 시키면 안되고 db에 삭제를 시켜야 한다.
-            }
+            eventClick: function (arg) {
+                if (confirm('Are you sure you want to delete this event?')) {
+                    arg.event.remove() // 여기서 리무브를 시키면 안되고 db에 삭제를 시켜야 한다.
+                }
                 console.log(arg.event);
                 let events = new Array();
                 let obj = {
-                title : arg.event._def.title,
-                start : arg.event._instance.start
+                    title: arg.event._def.title,
+                    start: arg.event._instance.range.start
                 };
 
-            delete_data(obj);
+                delete_data(obj);
+            },
+
+            eventDrop: function(info) {
+                //드래그 수정
+                let obj = {
+                    // 이건 수정된 정보
+                    title: info.event._def.title,
+                    start: info.event._instance.range.start,
+                    end: info.event._instance.range.end
+                }
+
+                let oldObj = {
+                    title: info.oldEvent._def.title,
+                    start: info.oldEvent._instance.range.start,
+                    end: info.oldEvent._instance.range.end
+                }
+                // console.log(info)
+                // console.log(obj)
+                // console.log(oldObj)
+                update_data(obj, oldObj);
+
             },
             editable: true,
             dayMaxEvents: true, // allow "more" link when too many events
-            events: [
-
-            ]
+            events: function (info, successCallback, failureCallback) {
+                $.ajax({
+                    url: '/set',
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        successCallback(data);
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                })
             }
+        }
 
 
             calendar = new FullCalendar.Calendar(calendarEl, calendarObect);
@@ -64,35 +111,27 @@
             calendar.render();
             });
 
-            function set_data() {
-                for (var value of [[${calData}]]) {
-                    value.forEach((x) => {
 
-                    })
-                }
-                return {title: '제목', start: '2023-12-01', end: '2023-12-20'};
-            }
-
-
-            function get_data() {
-                let allEvents = calendar.getEvents();
-                let eventArr = new Array();
-
-                console.log(allEvents);
-
-                for (let i = 0; i < allEvents.length; i++) {
-                let obj = {
-                title : allEvents[i]._def.title,
-                start : allEvents[i]._instance.range.start,
-                end : allEvents[i]._instance.range.end,
-                allDay: allEvents[i]._def.allDay
-                }
-                // save_data(obj);
-                eventArr.push(obj);
-                }
-                // console.log(eventArr)
-                save_data(eventArr);
-            }
+            // 이거 못 쓰겠네..
+            // function get_data() {
+            //     let allEvents = calendar.getEvents();
+            //     let eventArr = new Array();
+            //
+            //     console.log(allEvents);
+            //
+            //     for (let i = 0; i < allEvents.length; i++) {
+            //     let obj = {
+            //     title : allEvents[i]._def.title,
+            //     start : allEvents[i]._instance.range.start,
+            //     end : allEvents[i]._instance.range.end,
+            //     allDay: allEvents[i]._def.allDay
+            //     }
+            //     // save_data(obj);
+            //     eventArr.push(obj);
+            //     }
+            //     // console.log(eventArr)
+            //     save_data(eventArr);
+            // }
 
             function save_data(obj) {
                 $.ajax({
@@ -127,7 +166,25 @@
                 })
             }
 
-            calendarObect.events += set_data();
+            function update_data(obj, oldObj) {
+                console.log(obj)
+                console.log(oldObj)
+                let objList = [obj, oldObj]
+                $.ajax({
+                    url: "/update",
+                    type: 'post',
+                    data: JSON.stringify(objList),
+                    dataType: 'json',
+                    contentType: "application/json",
+                    success: function (data) {
+
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                })
+            }
+
 
     </script>
     <style>

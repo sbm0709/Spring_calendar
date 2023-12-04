@@ -15,6 +15,10 @@
         </foreach>
     </insert>
 
+    <insert id="save" parameterType="com.board.dto.CalendarDTO" >
+        insert into calendar(title, start, end, allday, idNo) values(#{title}, #{start}, #{end}, #{allDay}, #{idNo})
+    </insert>
+
     <delete id="delete_data" parameterType="com.board.dto.CalendarDTO" >
         delete from calendar where title=#{title} and start=#{start};
     </delete>
@@ -24,7 +28,7 @@
     </select>
 
     <select id="select_individual_data" resultType="com.board.dto.CalendarDTO" parameterType="int" >
-        select * from calendar where idNo=#{idNo} AND calendarType='individual'
+        select * from calendar where idNo=#{idNo} AND calendarType='individual' order by 
     </select>
 
     <select id="select_group_data" resultType="com.board.dto.CalendarDTO" parameterType="GroupDTO" >
