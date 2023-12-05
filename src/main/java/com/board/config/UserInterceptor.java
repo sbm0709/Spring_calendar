@@ -10,10 +10,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("UserInterceptor - preHandle");
+        log.fatal("UserInterceptor - preHandle");
         HttpSession session = request.getSession();
         if(session.getAttribute("loginedUser") == null){
-            response.sendRedirect("/main");
+            response.sendRedirect("/calendar");
             return false;
         }
 

@@ -28,7 +28,7 @@ public interface UserMapper {
     void user_group_secession(UserGroupDTO userGroupDTO);
 
 
-    void user_delete(HttpSession session);
+    void user_delete(String id);
 }
 
 

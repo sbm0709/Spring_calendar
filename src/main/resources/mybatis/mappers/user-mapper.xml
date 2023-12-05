@@ -14,7 +14,7 @@
     </select>
 
 
-    <insert id="user_register" parameterType="UserDTO">
+    <insert id="user_register">
         INSERT INTO `user` VALUES (NULL ,#{userDTO.id}, #{userDTO.pw}, #{data})
     </insert>
 
@@ -22,6 +22,10 @@
         DELETE FROM `user`
         WHERE id = #{id};
     </delete>
+<!--프로필 사진 변경-->
+    <update id="change_profile">
+        UPDATE `user` SET profile = #{data} where idNo = #{idNo};
+    </update>
 
 
 <!--    group에 타 유저 초대하기-->
