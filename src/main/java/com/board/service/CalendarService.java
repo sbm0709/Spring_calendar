@@ -32,10 +32,13 @@ public class CalendarService {
         return calendarMapper.select_individual_data(idNo);
     }
 
+    public List<CalendarDTO> select_all_data(int idNo) {
+        return calendarMapper.select_data(idNo);
+    }
+
     public List<CalendarDTO> select_group_data(int groupNo) {
         return calendarMapper.select_group_data(groupNo);
     }
-
 
     public void update_data(CalendarDTO cal, CalendarDTO oldCal) {
         calendarMapper.update_data(cal, oldCal);
@@ -46,6 +49,7 @@ public class CalendarService {
     }
 
     public List<CalendarDTO> select_list(int idNo) {return calendarMapper.select_list(idNo);}
+
 
 
 

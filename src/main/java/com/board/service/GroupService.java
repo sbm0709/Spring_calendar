@@ -9,17 +9,20 @@ import org.springframework.stereotype.Service;
 import com.board.mappers.GroupMapper;
 import com.board.mappers.UserMapper;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
 public class GroupService {
 
     private final GroupMapper groupMapper;
+    private final UserMapper userMapper;
 
 
     // 그룹 생성하기
     public void group_create(GroupDTO groupDTO, UserDTO userDTO){
-
+        if(Objects.equals(groupDTO.getGroupName(), "null")) return;
         log.warn("group_create 시작");
         groupDTO.setCreateIdNo(userDTO.getIdNo());
         groupMapper.group_create(groupDTO);
@@ -30,8 +33,6 @@ public class GroupService {
     }
 
     public GroupDTO Select_user_group(int groupNo){return groupMapper.user_belong_groups_select(groupNo);}
-
-
 
 
 }

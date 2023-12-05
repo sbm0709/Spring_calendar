@@ -20,4 +20,5 @@ public class CalendarDTO {
     private int idNo;
     private String allDay;
     private int groupNo;
+    private String color;
 }

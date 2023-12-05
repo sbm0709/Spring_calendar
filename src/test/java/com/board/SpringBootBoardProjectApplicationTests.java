@@ -54,7 +54,7 @@ class SpringBootBoardProjectApplicationTests {
 		calendarDTO.setEnd(LocalDateTime.now());
 		calendarDTO.setTitle("test");
 		calendarDTO.setIdNo(18);
-		calendarDTO.setGroupNo(12);
+//		calendarDTO.setGroupNo(12);
 		calendarDTO.setAllDay("true");
 //		calendarService.save_group_data(calendarDTO);
 

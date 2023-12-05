@@ -52,7 +52,7 @@ public class UserService {
 
 
     // 그룹 초대 하기
-    public void group_invite_user(String id, GroupDTO groupDTO){
+    public void group_invite_user(String id, int groupNo){
 
         if(userMapper.user_select(id) == null){
             log.warn("group_invite_user - 유저없음!");
@@ -60,7 +60,7 @@ public class UserService {
         }
 
         UserDTO user = userMapper.user_select(id);
-        UserGroupDTO userGroupDTO  = new UserGroupDTO(user.getIdNo(), groupDTO.getGroupNo());
+        UserGroupDTO userGroupDTO  = new UserGroupDTO(user.getIdNo(), groupNo);
 
         if(userMapper.user_group_select(userGroupDTO) != null){
             log.warn("group_invite_user 실패");
@@ -73,10 +73,12 @@ public class UserService {
 
 
     //그룹 탈퇴 하기
-    public void group_secession_user(String id, GroupDTO groupDTO){
+    public void group_secession_user(int idNo, int groupNo){
+        log.warn("group_secession_user idNo=" + idNo);
+        log.warn("group_secession_user groupNo=" + groupNo);
         userMapper.user_group_secession(
-                new UserGroupDTO(userMapper.user_select(id).getIdNo(),
-                groupDTO.getGroupNo()));
+                new UserGroupDTO(idNo,
+                groupNo));
         log.warn("탈퇴 성공");
     }
 }

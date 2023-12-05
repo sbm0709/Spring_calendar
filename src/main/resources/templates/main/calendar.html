@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-
     <meta charset='utf-8' />
+    <title>일정</title>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales-all.js"></script>
@@ -10,25 +10,49 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/53e865f4e7.js" crossorigin="anonymous"></script>
+
 
     <script th:inline="javascript">
         // var calList = [[${calData}]];
         // var calList2 = [[${session}]];
         // console.log("model" + calList[0][title]);
         // console.log("session" + calList2);
+
+
         var calendar = null;
+        var groupNo = "0";
+
+        if([[${groupNo}]] !== null){
+            groupNo = [[${groupNo}]];
+        }
+
+        // console.log(groupNo);
+        // console.log([[${session.loginedUser.getidNo()}]]);
+
+        let belongGroupX = [[${belongGroup}]];
+        let array = [];
+        belongGroupX.forEach((value) => array.push(value))
+        let nums = [];
+
+        array.forEach(value => {
+            nums.push(value.groupNo.toString());
+        })
+
+        if(nums.indexOf(groupNo.toString()) === -1 && groupNo.toString() !== "0" && groupNo.toString() !== "-1"){
+            alert("자신이 가입한 그룹으로만 갈 수 있습니다!");
+            location.href="/main/calendar?groupNo=0";
+        }
+
+
         document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
-        // 여기까지 오는지를 잘 모르겠음 왜 set_group갈때는 noll로 바뀌는 거지
-        var groupNo = [[${groupNo}]];
-            console.log("여기는 script"+[[${groupNo}]]);
-
         calendarObect = {
             headerToolbar: {
-                left: 'prev,next today',
+                left: 'prev,next,today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                right: ''
             },
             // initialDate: '2023-01-12',
             navLinks: true, // can click day/week names to navigate views
@@ -41,12 +65,12 @@
                 if (title) {
                     console.log(arg.start);
                     console.log(arg.end);
-
                     let obj = {
                         title: title,
                         start: arg.start,
                         end: arg.end,
-                        allDay: arg.allDay
+                        allDay: arg.allDay,
+                        groupNo: groupNo
                     }
                     save_data(obj);
                     // calendar.addEvent({
@@ -62,14 +86,14 @@
             eventClick: function (arg) {
                 if (confirm('Are you sure you want to delete this event?')) {
                     arg.event.remove() // 여기서 리무브를 시키면 안되고 db에 삭제를 시켜야 한다.
+                    let obj = {
+                        title: arg.event._def.title,
+                        start: arg.event._instance.range.start
+                    };
+
+                    delete_data(obj);
                 }
                 console.log(arg.event);
-                let obj = {
-                    title: arg.event._def.title,
-                    start: arg.event._instance.range.start
-                };
-
-                delete_data(obj);
             },
 
             eventDrop: function(info) {
@@ -95,7 +119,21 @@
             dayMaxEvents: true, // allow "more" link when too many events
             events:
                 function (info, successCallback, failureCallback) {
-                    if (groupNo === null) {
+                    // if(groupNo === "0"){
+                    //     $.ajax({
+                    //         url: '/set_all',
+                    //         type: 'post',
+                    //         // data: {idNo : [[${session.loginedUser.getidNo()}]] },
+                    //         dataType: 'json',
+                    //         success: function (data) {
+                    //             successCallback(data);
+                    //         },
+                    //         error: function (error) {
+                    //             console.log(error)
+                    //         }
+                    //     })
+                    // }else
+                    if(groupNo === "0"){
                         $.ajax({
                             url: '/set',
                             type: 'post',
@@ -107,14 +145,15 @@
                                 console.log(error)
                             }
                         })
+
                     } else {
                         $.ajax({
                             url: '/set_group',
                             type: 'post',
-                            data: {groupName : groupNo},
+                            data: {groupNo : groupNo},
                             dataType: 'json',
-                            success: function () {
-
+                            success: function (data) {
+                                successCallback(data)
                             },
                             error: function () {
 
@@ -134,19 +173,19 @@
 
 
             function save_data(obj) {
-                $.ajax({
-                    url: '/save',
-                    type: 'post',
-                    data: JSON.stringify(obj),
-                    dataType: 'json',
-                    contentType: "application/json",
-                    success: function (data) {
+                    console.log("개인");
+                    $.ajax({
+                        url: '/save',
+                        type: 'post',
+                        data: JSON.stringify(obj),
+                        dataType: 'json',
+                        contentType: "application/json",
+                        success: function (data) {
 
-                    },
-                    error: function (error) {
-
-                    }
-                })
+                        },
+                        error: function (error) {
+                        }
+                    })
                 location.reload();
             }
 
@@ -191,32 +230,42 @@
     <style>
         *{
             font-family: 'Jua', sans-serif;
+            user-select: none;
         }
 
+        /* 일요일 날짜: 빨간색 */
+        .fc-day-sun a {
+            color: red;
+        }
+
+        /* 토요일 날짜: 파란색 */
+        .fc-day-sat a {
+            color: blue;
+        }
         body {
             margin: 40px 10px;
             padding: 0;
-            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
             font-size: 14px;
         }
 
         #calendar{
-           width: 1100px;
+            width: 1100px;
         }
 
         #user{
             top: 30px;
             padding: 0;
             width: 200px;
-            height: 31%;
-            margin-top: 50px;
+            height: 25%;
+            margin-top: 15px;
             background-color: cornsilk;
             border-radius: 5px;
             border: 1px solid black;
+            cursor: pointer;
         }
 
         #list1, #list2{
-            margin-top: 35px;
+            margin-top: 15px;
             padding: 0;
             width: 200px;
             height: 25%;
@@ -240,10 +289,9 @@
         #userPhoto{
             background-image: none;
             width: 180px;
-            height: 76%;
+            height: 70%;
             margin: 0 auto;
             top: 0;
-
             border-radius: 5px;
             background-size: cover;
             background-position: center;
@@ -251,8 +299,10 @@
 
         button{
             width: 50%;
-            background-color: rgba(15, 42, 56, 80%);
+            background-color: rgba(15, 42, 56, 0.6);
             color: white;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
         button:hover{
@@ -266,19 +316,28 @@
             padding: 5px 5px;
         }
 
-        button + button{
+        #buttons > button + button{
             margin-left: 10px;
+        }
+
+
+        #grp_buttons > button:hover{
+            background-color: lightpink;
         }
 
 
         li{
             width: 180px;
             height: 22%;
-            background-color: rgba(161, 161, 161, 40%);
+            background-color: rgba(161, 161, 161, 0.3);
             margin: 5px 5px;
             border-radius: 5px;
             padding: 5px;
             text-align: center;
+        }
+
+        li:hover{
+            background-color: rgba(161, 161, 161, 0.5);
         }
 
         .plist_name{
@@ -307,6 +366,7 @@
             margin-right: 50px;
             font-family: 'Jua', sans-serif;
             font-size: large;
+            cursor: pointer;
         }
         main{
             margin: 0 auto;
@@ -325,22 +385,55 @@
 
         .list_name{
             margin: 5px 5px;
-            background-color: rgba(209, 239, 255, 0.8);
-
+            background-color: rgba(209, 239, 255, 0.8)
         }
 
-        #add{
-            width: 95%;
-            bottom: 7%;
-            position: absolute;
-            margin: 0 auto;
+        #grp_buttons{
+            width: 100%;
+            margin-top: 6px;
             left: 5px;
+            position: relative;
+            text-align: left;
+        }
+
+        #grp_buttons:hover{
+            display: flex;
+            flex-direction: column;
+            margin-top: 6px;
+            left: 5px;
+            width: 100%;
+            transition-duration: 0.5s;
+        }
+        #grp_buttons:hover button{
+            position: relative;
+            margin-bottom: 5px;
+            transition-duration: 0.5s;
+        }
+
+
+        #grp_buttons > button {
+            width: 95%;
+            height: 35px;
+            background-color: rgb(248, 232, 245);
+            color: black;
+            border: 0.2px solid black;
+            font-size: 1rem;
+            position: absolute;
+        }
+        #grp_buttons > button:nth-child(1){
+            z-index: 1;
+        }
+
+        #list2{
+            height: 265px;
         }
 
         #list1{
             position: relative;
             display: inline-block;
         }
+
+
 
         .lists{
             scrollbar-width: none;
@@ -349,6 +442,7 @@
             -ms-scroll-snap-type: none;
             padding:0 0;
             margin: 0;
+
         }
         ul{
             list-style: none;
@@ -361,10 +455,9 @@
 
         .grp {
             height: 17%;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
         }
+
+
 
         .lists::-webkit-scrollbar-track {
             background-color: transparent;
@@ -378,22 +471,47 @@
             height: 180px;
         }
 
+        .weather {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            border: 1px solid black;
+            border-radius: 5px;
+            padding-top: 8px;
+        }
+
+
     </style>
 </head>
 <body>
 <main>
     <section id="leftInfo">
-        <div id="user">
-            <div><span id="profile" th:text="${session.loginedUser.getId()}"></span><span id="profile_word"> 님, 환영합니다</span></div>
-            <div id="userPhoto"><img width="180" height="230" th:src="@{http://localhost:8080/user/profile_download/${session.loginedUser.getProfile()}}" alt="프로필 이미지"></div>
-            <div id="buttons">
-                <button>로그아웃</button>
-                <button>회원탈퇴</button>
+<!--        <div>-->
+            <div class="weather">
+                <div class="CurrIcon"></div>
+                <div class="CurrTemp"></div>
+                <div class="City"></div>
             </div>
-<!--            <input id="flag" type="hidden" value="0">-->
+<!--            <div>-->
+<!--                <div class="y">년</div>-->
+<!--                <div class="m">월</div>-->
+<!--                <div class="d">일</div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div id="user">
+            <form action="/change_img" method="post" enctype="multipart/form-data" id="profile-input-form">
+                <input type="file" hidden/>
+            </form>
+            <div><span id="profile" th:text="${session.loginedUser.getId()}"></span><span id="profile_word"> 님, 환영합니다</span></div>
+            <div id="userPhoto"><img onclick="change_image()" id="fileName" width="100%" height="100%" th:src="@{http://localhost:8080/user/profile_download/${session.loginedUser.getProfile()}}" alt="프로필 이미지"></div>
+            <div id="buttons">
+                <button type="submit" onclick="location.href='/user/logout'">로그아웃</button>
+                <button type="submit" onclick="location.href='/user/delete'">회원탈퇴</button>
+            </div>
         </div>
         <div id="list1">
-            <div class="list_name">개인</div>
+            <div class="list_name" onclick="direct_group(-1)">개인</div>
             <ul class="lists" >
                 <li th:each="calendarDTO : ${selectedList}">
                     <div class="plist_name" th:text="${calendarDTO.title}"></div>
@@ -406,7 +524,11 @@
             <ul class="lists">
                 <li class="grp" th:each="groupDTO : ${belongGroup}" th:text="${groupDTO.groupName}" th:attr="onclick=|direct_group('${groupDTO.groupNo}')|"></li>
             </ul>
-            <button id="add" onclick="group_create()">그룹 생성하기</button>
+            <div id="grp_buttons">
+                <button id="add" onclick="group_create()">그룹 생성하기</button>
+                <button id="invite" onclick="group_invite(groupNo)">그룹 초대하기</button>
+                <button id="out" onclick="group_secession(groupNo)">그룹 탈퇴하기</button>
+            </div>
         </div>
 
     </section>
@@ -417,8 +539,18 @@
 </html>
 
 <script th:inline="javascript">
-    let flag = document.getElementById('flag').value;
-    console.log(flag);
+    const profileInputForm = document.getElementById('profile-input-form');
+    const profileInput = profileInputForm.querySelector('input')
+
+    profileInput.onchange = () => {
+        if(profileInput.value != ''){
+            profileInputForm.submit();
+        }
+    }
+    function change_image(){
+        profileInput.click();
+    }
+
 
 
     function group_create(){
@@ -441,7 +573,6 @@
     function direct_group(groupNo){
 
         console.log("main - direct_group_groupNo : "+groupNo)
-
         const form = document.createElement('form');
         form.setAttribute('method', 'get');
         form.setAttribute('action', "/main/calendar");
@@ -456,7 +587,131 @@
         form.submit();
     }
 
+    function group_secession(groupNo){
+        if(groupNo === "0"){
+            alert("그룹을 선택해주세요");
+            location.reload();
+        }
+        else{
+            const form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', "/group/secession");
 
+            const data_1 = document.createElement('input');
+            data_1.setAttribute('type', 'hidden'); // type = hidden
+            data_1.setAttribute('name', 'groupNo');
+            data_1.setAttribute('value', groupNo);
+
+            form.appendChild(data_1);
+            document.body.appendChild(form);
+            form.submit();
+
+        }
+
+    }
+
+    function group_invite(groupNo){
+        if(groupNo === "0"){
+            alert("그룹을 선택해주세요");
+            location.reload();
+        }
+        else {
+            let inviteid = prompt("초대할 사람의 id를 입력해주세요")
+
+            const form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', "/user/invite");
+
+            const data_1 = document.createElement('input');
+            data_1.setAttribute('type', 'hidden');
+            data_1.setAttribute('name', 'id');
+            data_1.setAttribute('value', inviteid);
+
+            const data_2 = document.createElement('input');
+            data_2.setAttribute('type', 'hidden');
+            data_2.setAttribute('name', 'groupNo');
+            data_2.setAttribute('value', groupNo);
+
+            form.appendChild(data_1);
+            form.appendChild(data_2);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    function dateFormat(date) {
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let second = date.getSeconds();
+
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+        hour = hour >= 10 ? hour : '0' + hour;
+        minute = minute >= 10 ? minute : '0' + minute;
+        second = second >= 10 ? second : '0' + second;
+
+        return date.getFullYear() + '-' + month + '-' + day;
+    }
+
+    $(document).ready(function () {
+        let weatherIcon = {
+            '01' : 'fas fa-sun',
+            '02' : 'fas fa-sun',
+            '03' : 'fas fa-sun',
+            '04' : 'fas fa-sun',
+            '09' : 'fas fa-cloud-sun-rain',
+            '10' : 'fas fa-cloud-showers-heavy',
+            '11' : 'fas fa-cloud-bolt',
+            '13' : 'fas fa-snowflake',
+            '50' : 'fas fa-smog',
+        }
+
+        $.ajax({
+            url: 'http://api.openweathermap.org/data/2.5/weather?q=Daegu&appid=c7d08555216a4a02b0fe0c27b48b8060&units=metric&lang=ko',
+            type: 'get',
+            dataType: 'json',
+            // async: false,
+            success: function(data) {
+                var $Icon = (data.weather[0].icon).substr(0,2);
+                var $Temp = Math.floor(data.main.temp) + '°';
+                var $city = data.name;
+                let abc = "";
+
+                var $min = Math.floor(data.main.temp_min) + '°';
+                var $max = Math.floor(data.main.temp_max) + '°';
+                // var $dateTime = dateFormat(Date.now());
+                // console.log($Icon);
+                // console.log($min);
+                // console.log($max);
+                //
+                if ($Icon >= 50) {
+                    console.log("if들어옴");
+                    abc += "안개";
+                } else if($Icon >= 13) {
+                    abc += "강설";
+                } else if($Icon >= 11) {
+                    abc += "뇌우";
+                } else if($Icon >= 10) {
+                    abc += "폭우";
+                } else if($Icon >= 9) {
+                    abc += "우천";
+                } else if($Icon >= 4) {
+                    abc += "맑음";
+                }
+
+                $('.CurrIcon').append();
+                $('.CurrIcon').append(abc + '<i class="'+ weatherIcon[$Icon] + '"></i>');
+                $('.CurrTemp').prepend($Temp);
+                $('.City').append($city);
+                // $('.Date').append($date);
+                // $('.y').append(Date.now().get)
+
+            }
+
+        })
+    })
 
 
 
