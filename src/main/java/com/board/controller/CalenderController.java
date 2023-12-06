@@ -40,20 +40,20 @@ public class CalenderController {
             @RequestParam(required = false) String groupNo
     ) {
 
-        List<GroupDTO> groups = new ArrayList<GroupDTO>();
         UserDTO loginedUserDTO = (UserDTO) session.getAttribute("loginedUser");
         if(loginedUserDTO == null){
             return "redirect:/";
         }
 
+        List<GroupDTO> groups = new ArrayList<GroupDTO>();
         if(userService.user_belong_groupNo(loginedUserDTO) != null){
             for (Integer groupNum : userService.user_belong_groupNo(loginedUserDTO)) {
-                log.warn("참여중인 그룹 : " + groupService.Select_user_group(groupNum));
+//                log.warn("참여중인 그룹 : " + groupService.Select_user_group(groupNum));
                 groups.add(groupService.Select_user_group(groupNum));
             }
         }
 
-        log.warn("calendar"+loginedUserDTO);
+//        log.warn("calendar"+loginedUserDTO);
 
         model.addAttribute("groupNo", groupNo);
         model.addAttribute("belongGroup", groups);
@@ -70,7 +70,7 @@ public class CalenderController {
         calendarDTO.setStart(calendarDTO.getStart().plusHours(9));
         calendarDTO.setEnd(calendarDTO.getEnd().plusHours(9));
         calendarDTO.setIdNo(userDTO.getIdNo());
-        log.warn(calendarDTO);
+//        log.warn(calendarDTO);
 
         if(calendarDTO.getGroupNo() == 0 || calendarDTO.getGroupNo() == -1){
             calendarService.save_data(calendarDTO);
@@ -89,15 +89,24 @@ public class CalenderController {
     }
 
 
-    // 개인 일정 가져오기
+    // 일정 가져오기
     @ResponseBody
     @PostMapping("/set")
     public List<CalendarDTO> set_data(HttpSession session,String groupNo) {
-
         UserDTO userDTO = (UserDTO) session.getAttribute("loginedUser");
 
         if(Objects.equals(groupNo, "0")){
-            return calendarService.select_all_data(userDTO.getIdNo());
+            List<CalendarDTO> individualList = calendarService.select_individual_data(userDTO.getIdNo());
+            List<CalendarDTO> groupList = new ArrayList<>();
+
+            if(userService.user_belong_groupNo(userDTO) != null){
+                for (Integer groupNum : userService.user_belong_groupNo(userDTO)) {
+                    groupList.addAll(calendarService.select_group_data(groupNum));
+                }
+            }
+
+            individualList.addAll(groupList);
+            return individualList;
         }
         else if(Objects.equals(groupNo, "-1")){
             return calendarService.select_individual_data(userDTO.getIdNo());
@@ -108,22 +117,6 @@ public class CalenderController {
 
 
     }
-
-//    // 그룹 일정 가져오기
-//    @ResponseBody
-//    @PostMapping("/set_group")
-//    public List<CalendarDTO> set_group_data(String groupNo) {
-////        log.warn("set_group groupNo : "+groupNo);
-//        log.warn(calendarService.select_group_data(Integer.parseInt(groupNo)));
-//        return calendarService.select_group_data(Integer.parseInt(groupNo));
-//    }
-//
-//    @ResponseBody
-//    @PostMapping("/set_all")
-//    public List<CalendarDTO> set_all_data(String idNo) {
-//        log.warn("set_all idNo : " + idNo);
-//        return calendarService.select_all_data(Integer.parseInt(idNo));
-//    }
 
 
     //수정

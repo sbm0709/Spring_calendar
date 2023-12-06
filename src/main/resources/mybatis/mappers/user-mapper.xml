@@ -8,12 +8,13 @@
         WHERE id = #{id} AND pw = #{pw}
     </select>
 
+<!--   id로 유저 찾기-->
     <select id="user_select" resultType="UserDTO" parameterType="String">
         SELECT * FROM `user`
         WHERE id = #{id}
     </select>
 
-
+<!-- 유저 가입-->
     <insert id="user_register">
         INSERT INTO `user` VALUES (NULL ,#{userDTO.id}, #{userDTO.pw}, #{data})
     </insert>

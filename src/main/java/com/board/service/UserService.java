@@ -31,7 +31,7 @@ public class UserService {
             byte[] data = fileData.getBytes();
             userMapper.user_register(userDTO, data);
         }catch (Exception e){
-            System.out.println(e);
+            log.info(e);
         }
     }
 

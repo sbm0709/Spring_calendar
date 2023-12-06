@@ -50,9 +50,20 @@ public class GroupController {
     public String group_secession(HttpSession session, String groupNo){
         UserDTO user = (UserDTO) session.getAttribute("loginedUser");
 
+        if(user.getIdNo() == groupService.group_created_idNo_select(Integer.parseInt(groupNo))) {
+            groupService.group_delete(Integer.parseInt(groupNo));
+            return "redirect:/main/calendar";
+        }
         userService.group_secession_user(user.getIdNo(), Integer.parseInt(groupNo));
 
         return "redirect:/main/calendar";
     }
+
+    // secession에 포함으로 안씀
+//    @PostMapping("/delete")
+//    public String group_delete(String groupNo){
+//        groupService.group_delete(Integer.parseInt(groupNo));
+//        return "redirect:/main/calendar";
+//    }
 
 }

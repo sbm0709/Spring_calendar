@@ -34,5 +34,8 @@ public class GroupService {
 
     public GroupDTO Select_user_group(int groupNo){return groupMapper.user_belong_groups_select(groupNo);}
 
+    public void group_delete(int groupNo){groupMapper.group_delete(groupNo);}
+
+    public int group_created_idNo_select(int groupNo){return groupMapper.group_created_idNo_select(groupNo);}
 
 }

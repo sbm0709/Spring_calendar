@@ -1,9 +1,6 @@
 package com.board.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -12,6 +9,7 @@ import java.io.File;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
     private int idNo;
     private String id;

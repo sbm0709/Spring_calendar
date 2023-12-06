@@ -2,7 +2,6 @@ package com.board.mappers;
 
 import com.board.dto.GroupDTO;
 import com.board.dto.UserDTO;
-import com.board.dto.UserGroupDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public interface GroupMapper {
 
 
     //그룹 삭제
-    void group_delete(GroupDTO groupDTO);
+    void group_delete(int groupNo);
 
     //그룹 내 user No 가져오기
     List<Integer> in_group_user_select(GroupDTO groupDTO);
@@ -31,5 +30,9 @@ public interface GroupMapper {
 
     //그룹 넘버 가지고 그룹들 가져오기
     GroupDTO user_belong_groups_select(int groupNo);
+
+    //그룹 넘버 가지고 그룹 생성자 id 가져오기?
+    int group_created_idNo_select(int groupNo);
+
 
 }

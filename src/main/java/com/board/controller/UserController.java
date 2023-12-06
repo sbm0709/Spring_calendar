@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Log4j2
@@ -35,7 +36,7 @@ public class UserController {
         }
         //로그인 성공 시 유저가 속한 groupNo 세션에 넘겨주기
         session.setAttribute("loginedUser", loginedUserDTO);
-        log.warn("login"+loginedUserDTO);
+//        log.warn("login"+loginedUserDTO); 절대 키지마!!!!!!!!!
         return "redirect:/main/calendar";
     }
 
@@ -50,7 +51,7 @@ public class UserController {
 
     //프로필 사진 표시
     @ResponseBody
-    @GetMapping("/profile_download/{userID}")
+    @GetMapping("/profile_download/")
     public byte[] view_profile(HttpSession session){
         UserDTO loginedUserDTO = (UserDTO) session.getAttribute("loginedUser");
         return loginedUserDTO.getProfile();
@@ -65,7 +66,9 @@ public class UserController {
     @GetMapping("/logout")
     public String user_logout(HttpSession session){
         //UserDTO loginedUserDTO = userMapper.user_login(userDTO);
-        session.removeAttribute("loginedUser");
+//        session.removeAttribute("loginedUser");
+        session.invalidate();
+
         return "redirect:/";
     }
     //회원탈퇴
