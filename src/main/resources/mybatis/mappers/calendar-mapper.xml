@@ -16,11 +16,11 @@
 <!--    </insert>-->
 
     <insert id="save" parameterType="com.board.dto.CalendarDTO" >
-        insert into calendar(title, start, end, allday, idNo) values(#{title}, #{start}, #{end}, #{allDay}, #{idNo})
+        insert into calendar(title, start, end, allday, idNo, color) values(#{title}, #{start}, #{end}, #{allDay}, #{idNo}, #{color})
     </insert>
 
     <insert id="save_group_data" parameterType="com.board.dto.CalendarDTO" >
-        insert into calendar(title, start, end, allday, idNo, groupNo, CalendarType) values(#{title}, #{start}, #{end}, #{allDay}, #{idNo} ,#{groupNo}, 'group')
+        insert into calendar(title, start, end, allday, idNo, groupNo, CalendarType, color) values(#{title}, #{start}, #{end}, #{allDay}, #{idNo} ,#{groupNo}, 'group', #{color})
     </insert>
 
     <delete id="delete_data" parameterType="com.board.dto.CalendarDTO" >
@@ -28,15 +28,7 @@
     </delete>
 
     <select id="select_data" resultType="com.board.dto.CalendarDTO" >
-        select title, start, end, allday, groupNo,
-            Case
-                When groupNo % 5 = 0 then '#FF0040'
-                WHEN groupNo % 5 = 1 THEN '#01DFA5'
-                WHEN groupNo % 5 = 2 THEN '#FE9A2E'
-                WHEN groupNo % 5 = 3 THEN '#8000FF'
-                WHEN groupNo % 5 = 4 THEN '#848484'
-            Else '#000000'
-            End As color
+        select title, start, end, allday, groupNo
         from calendar where idNo=#{idNo}
     </select>
 
@@ -45,16 +37,7 @@
     </select>
 
     <select id="select_group_data" resultType="com.board.dto.CalendarDTO" parameterType="GroupDTO" >
-        select title, start, end, allday, groupNo,
-        Case
-            When groupNo % 5 = 0 then '#FF0040'
-            WHEN groupNo % 5 = 1 THEN '#01DFA5'
-            WHEN groupNo % 5 = 2 THEN '#FE9A2E'
-            WHEN groupNo % 5 = 3 THEN '#8000FF'
-            WHEN groupNo % 5 = 4 THEN '#848484'
-            Else '#000000'
-         End As color
-        from calendar where groupNo=#{groupNo} AND calendarType='group'
+        select * from calendar where groupNo=#{groupNo} AND calendarType='group'
     </select>
 
     <update id="update_data" parameterType="com.board.dto.CalendarDTO" >

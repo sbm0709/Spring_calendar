@@ -28,24 +28,19 @@ public class GroupController {
 
 
 
-
+    //그룹 생성
     @PostMapping("/create")
     public String createGroup(
             GroupDTO groupDTO,
             HttpSession session //
     ){
-
-        log.fatal("group/create - post도착");
-        log.warn(groupDTO);
         UserDTO loginUserDTO = (UserDTO) session.getAttribute("loginedUser");
-        //log.warn(loginUserDTO);
         groupService.group_create(groupDTO, loginUserDTO);
-
-        log.warn("그룹 생성 종료");
 
         return "redirect:/main/calendar";
     }
 
+    //그룹 탈퇴/ 생성자일시 삭제
     @PostMapping("/secession")
     public String group_secession(HttpSession session, String groupNo){
         UserDTO user = (UserDTO) session.getAttribute("loginedUser");
@@ -59,11 +54,5 @@ public class GroupController {
         return "redirect:/main/calendar";
     }
 
-    // secession에 포함으로 안씀
-//    @PostMapping("/delete")
-//    public String group_delete(String groupNo){
-//        groupService.group_delete(Integer.parseInt(groupNo));
-//        return "redirect:/main/calendar";
-//    }
 
 }

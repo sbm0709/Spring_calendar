@@ -16,9 +16,6 @@ public class CalendarService {
 
     private final CalendarMapper calendarMapper;
 
-    public void calendar_create(CalendarDTO calendarDTO){
-        calendarMapper.calendar_create(calendarDTO);
-    };
 
     public void save_data(CalendarDTO calendarDTO) {
         calendarMapper.save(calendarDTO);
@@ -30,10 +27,6 @@ public class CalendarService {
     
     public List<CalendarDTO> select_individual_data(int idNo) {
         return calendarMapper.select_individual_data(idNo);
-    }
-
-    public List<CalendarDTO> select_all_data(int idNo) {
-        return calendarMapper.select_data(idNo);
     }
 
     public List<CalendarDTO> select_group_data(int groupNo) {

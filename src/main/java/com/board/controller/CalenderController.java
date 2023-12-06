@@ -30,9 +30,8 @@ public class CalenderController {
     private final GroupService groupService;
     private final UserService userService;
 
-    // 유저 검색 후 결과 조회
 
-
+    // calendar Main
     @GetMapping("main/calendar")
     public String select(
             Model model,
@@ -70,7 +69,6 @@ public class CalenderController {
         calendarDTO.setStart(calendarDTO.getStart().plusHours(9));
         calendarDTO.setEnd(calendarDTO.getEnd().plusHours(9));
         calendarDTO.setIdNo(userDTO.getIdNo());
-//        log.warn(calendarDTO);
 
         if(calendarDTO.getGroupNo() == 0 || calendarDTO.getGroupNo() == -1){
             calendarService.save_data(calendarDTO);
@@ -102,9 +100,9 @@ public class CalenderController {
             if(userService.user_belong_groupNo(userDTO) != null){
                 for (Integer groupNum : userService.user_belong_groupNo(userDTO)) {
                     groupList.addAll(calendarService.select_group_data(groupNum));
+                    log.debug("set: " + calendarService.select_group_data(groupNum));
                 }
             }
-
             individualList.addAll(groupList);
             return individualList;
         }

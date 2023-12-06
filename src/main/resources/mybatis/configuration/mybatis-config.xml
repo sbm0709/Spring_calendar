@@ -17,6 +17,5 @@
         <typeAlias type="com.board.dto.CalendarDTO" alias="CalendarDTO" />
         <typeAlias type="com.board.dto.GroupDTO" alias="GroupDTO" />
         <typeAlias type="com.board.dto.UserGroupDTO" alias="UserGroupDTO" />
-        <typeAlias type="com.board.dto.ChatDTO" alias="ChatDTO" />
     </typeAliases>
 </configuration>

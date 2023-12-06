@@ -10,10 +10,7 @@ import java.util.List;
 @Mapper
 public interface CalendarMapper {
 
-    void calendar_create(CalendarDTO calendarDTO);
-
     // 저장
-//    void save_data(CalendarDTO calendarDTOS);
     void save (CalendarDTO calendarDTO);
     // 삭제
     void delete_data(CalendarDTO calendarDTO);

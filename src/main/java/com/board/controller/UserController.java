@@ -30,7 +30,7 @@ public class UserController {
     // 유저 로그인
     @PostMapping("/login")
     public String user_login(UserDTO userDTO, HttpSession session){
-        UserDTO loginedUserDTO = userMapper.user_login(userDTO);
+        UserDTO loginedUserDTO = userService.user_login(userDTO);
         if(loginedUserDTO == null){
             return "redirect:/";
         }
@@ -58,25 +58,26 @@ public class UserController {
         return loginedUserDTO.getProfile();
     }
 
+    //유저 그룹초대
     @PostMapping("/invite")
     public String group_invite_user(String id, String groupNo){
         userService.group_invite_user(id, Integer.parseInt(groupNo));
         return "redirect:/main/calendar";
     }
+
     //로그아웃
     @GetMapping("/logout")
     public String user_logout(HttpSession session){
-        //UserDTO loginedUserDTO = userMapper.user_login(userDTO);
-//        session.removeAttribute("loginedUser");
         session.invalidate();
 
         return "redirect:/";
     }
+
     //회원탈퇴
     @GetMapping("/delete")
     public String user_delete(HttpSession session){
         UserDTO userDTO = (UserDTO) session.getAttribute("loginedUser");
-        userMapper.user_delete(userDTO.getId());
+        userService.user_delete(userDTO.getId());
         return "redirect:/";
     }
 
@@ -87,14 +88,15 @@ public class UserController {
         UserDTO userDTO = (UserDTO) session.getAttribute("loginedUser");
         log.warn(data.getOriginalFilename());
 
+//
         try {
             byte[] file = data.getBytes();
-            userMapper.change_profile(file, userDTO.getIdNo());
-            session.setAttribute("loginedUser", userMapper.user_select(userDTO.getId()));
+            userService.user_change_profile(file, userDTO.getIdNo());
+            session.setAttribute("loginedUser", userService.selectUser(userDTO.getId()));
         } catch (Exception e) {
             log.warn(e.getMessage());
         }
-        
+
         return "redirect:/main/calendar";
     }
 

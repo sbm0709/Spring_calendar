@@ -35,15 +35,10 @@ public class UserService {
         }
     }
 
-    public UserDTO selectUser(UserDTO userDTO){
-        return userMapper.user_select(userDTO.getId());
+    public UserDTO selectUser(String id){
+        return userMapper.user_select(id);
     }
 
-    public UserDTO selectUser(String userID){
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(userID);
-        return userMapper.user_select(userDTO.getId());
-    }
 
     // 현재 참여중인 그룹no들
     public List<Integer> user_belong_groupNo(UserDTO userDTO){
@@ -80,5 +75,9 @@ public class UserService {
                 new UserGroupDTO(idNo,
                 groupNo));
         log.warn("탈퇴 성공");
+    }
+
+    public void user_delete(String id){
+        userMapper.user_delete(id);
     }
 }

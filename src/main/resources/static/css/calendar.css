@@ -59,11 +59,18 @@ section{
 #userPhoto{
     background-image: none;
     width: 180px;
-    height: 70%;
+    height: 40%;
     margin: 0 auto;
     top: 0;
     border-radius: 5px;
     background-size: cover;
+    background-position: center;
+}
+#colorBox{
+    background-image: none;
+    width: 180px;
+    height: 30%;
+    margin: 0 auto;
     background-position: center;
 }
 
@@ -89,7 +96,6 @@ button:hover{
 #buttons > button + button{
     margin-left: 10px;
 }
-
 
 #grp_buttons > button:hover{
     background-color: lightpink;
@@ -271,3 +277,4 @@ ul{
 .y{
     /*margin-top: 10px;*/
 }
+

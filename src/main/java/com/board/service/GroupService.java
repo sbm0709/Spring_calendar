@@ -17,7 +17,6 @@ import java.util.Objects;
 public class GroupService {
 
     private final GroupMapper groupMapper;
-    private final UserMapper userMapper;
 
 
     // 그룹 생성하기

@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var calendarEl = document.getElementById('calendar');
 
+
     calendarObect = {
         headerToolbar: {
             left: 'prev,next,today',
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         aspectRatio: 1.35,
         select: function (arg) {
             var title = prompt('일정 이름을 입력해주세요');
+            var color = document.querySelector('input[name="color"]:checked').value;
             if (title) {
                 console.log(arg.start);
                 console.log(arg.end);
@@ -79,8 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: arg.start,
                     end: arg.end,
                     allDay: arg.allDay,
-                    groupNo: groupNo
+                    groupNo: groupNo,
+                    color : color
                 }
+
                 save_data(obj);
                 // calendar.addEvent({
                 //
