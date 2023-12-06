@@ -6,6 +6,7 @@ import com.board.dto.UserGroupDTO;
 import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 @Mapper
 public interface UserMapper {
@@ -29,6 +30,10 @@ public interface UserMapper {
 
 
     void user_delete(String id);
+
+    // 프로필 사진 변경
+    void change_profile(byte[] data, int idNo);
+
 }
 
 

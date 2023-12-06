@@ -54,6 +54,7 @@ public class UserController {
     @GetMapping("/profile_download/")
     public byte[] view_profile(HttpSession session){
         UserDTO loginedUserDTO = (UserDTO) session.getAttribute("loginedUser");
+//        log.warn("controller"+ Arrays.toString(loginedUserDTO.getProfile()));
         return loginedUserDTO.getProfile();
     }
 
@@ -78,10 +79,23 @@ public class UserController {
         userMapper.user_delete(userDTO.getId());
         return "redirect:/";
     }
+
+
     //프로필 사진 변경
     @PostMapping("/change_img")
-    public void change_profile(){
+    public String change_profile(MultipartFile data, HttpSession session){
+        UserDTO userDTO = (UserDTO) session.getAttribute("loginedUser");
+        log.warn(data.getOriginalFilename());
 
+        try {
+            byte[] file = data.getBytes();
+            userMapper.change_profile(file, userDTO.getIdNo());
+            session.setAttribute("loginedUser", userMapper.user_select(userDTO.getId()));
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
+        
+        return "redirect:/main/calendar";
     }
 
 }

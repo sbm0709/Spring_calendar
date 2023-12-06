@@ -11,7 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/53e865f4e7.js" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" >
+    <script th:src="@{/js/main/calendar.js}" defer></script>
 
     <script th:inline="javascript">
         var calendar = null;
@@ -27,22 +28,22 @@
 <body>
 <main>
     <section id="leftInfo">
-<!--        <div>-->
+        <div class="container">
             <div class="weather">
-                <div class="CurrIcon"></div>
-                <div class="CurrTemp"></div>
+                <span class="CurrIcon"></span>
+                <span class="CurrTemp"></span>
                 <div class="City"></div>
             </div>
-<!--            <div>-->
-<!--                <div class="y">년</div>-->
-<!--                <div class="m">월</div>-->
-<!--                <div class="d">일</div>-->
-<!--            </div>-->
-<!--        </div>-->
+            <div class="main_date">
+                <div class="y"></div>
+                <span class="m"></span>
+                <span class="d"></span>
+            </div>
+        </div>
 
         <div id="user">
-            <form action="/change_img" method="post" enctype="multipart/form-data" id="profile-input-form">
-                <input type="file" hidden/>
+            <form action="/user/change_img" method="post" enctype="multipart/form-data" id="profile-input-form" >
+                <input type="file" th:name="data" hidden/>
             </form>
             <div><span id="profile" th:text="${session.loginedUser.getId()}"></span><span id="profile_word"> 님, 환영합니다</span></div>
             <div id="userPhoto"><img onclick="change_image()" id="fileName" width="100%" height="100%" th:src="@{/user/profile_download/}" alt="프로필 이미지"></div>

@@ -37,7 +37,7 @@
 
 <!-- 그룹 초대할때 중복 거르기용 select문 -->
     <select id="user_group_select" parameterType="UserGroupDTO">
-            SELECT * FROM `user_group` WHERE idNo = #{idNo} AND groupNo = #{groupNo}
+        SELECT * FROM `user_group` WHERE idNo = #{idNo} AND groupNo = #{groupNo}
     </select>
 
 <!--    그룹 내 참가중인 사람들 No Select문 -->

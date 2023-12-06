@@ -38,7 +38,7 @@ public class GroupController {
         log.fatal("group/create - post도착");
         log.warn(groupDTO);
         UserDTO loginUserDTO = (UserDTO) session.getAttribute("loginedUser");
-        log.warn(loginUserDTO);
+        //log.warn(loginUserDTO);
         groupService.group_create(groupDTO, loginUserDTO);
 
         log.warn("그룹 생성 종료");
