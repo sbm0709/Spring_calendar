@@ -4,17 +4,6 @@
 <mapper namespace="com.board.mappers.CalendarMapper">
 
 
-<!--    <insert id="" parameterType="CalendarDTO">-->
-<!--        INSERT INTO `calendar` VALUES (#{title}, #{start}, #{end}, #{idNo})-->
-<!--    </insert>-->
-
-<!--    <insert id="save_data" parameterType="list">-->
-<!--        insert into calendar(title, start, end, allday, idNo) values-->
-<!--        <foreach collection="list" item="item" separator=",">-->
-<!--            (#{item.title}, #{item.start}, #{item.end}, #{item.allDay}, #{item.idNo})-->
-<!--        </foreach>-->
-<!--    </insert>-->
-
     <insert id="save" parameterType="com.board.dto.CalendarDTO" >
         insert into calendar(title, start, end, allday, idNo, color) values(#{title}, #{start}, #{end}, #{allDay}, #{idNo}, #{color})
     </insert>
