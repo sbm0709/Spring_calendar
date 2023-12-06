@@ -28,7 +28,7 @@ public interface UserMapper {
     // 그룹 탈퇴
     void user_group_secession(UserGroupDTO userGroupDTO);
 
-
+    //회원 탈퇴
     void user_delete(String id);
 
     // 프로필 사진 변경

@@ -26,7 +26,6 @@ public class UserController {
 
     private final UserService userService;
 
-    private final UserMapper userMapper;
     // 유저 로그인
     @PostMapping("/login")
     public String user_login(UserDTO userDTO, HttpSession session){
@@ -36,7 +35,6 @@ public class UserController {
         }
         //로그인 성공 시 유저가 속한 groupNo 세션에 넘겨주기
         session.setAttribute("loginedUser", loginedUserDTO);
-//        log.warn("login"+loginedUserDTO); 절대 키지마!!!!!!!!!
         return "redirect:/main/calendar";
     }
 
@@ -69,7 +67,6 @@ public class UserController {
     @GetMapping("/logout")
     public String user_logout(HttpSession session){
         session.invalidate();
-
         return "redirect:/";
     }
 

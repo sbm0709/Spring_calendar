@@ -41,10 +41,6 @@ public class CalendarService {
         calendarMapper.save_group_data(calendarDTO);
     }
 
-    public List<CalendarDTO> select_list(int idNo) {
-        return calendarMapper.select_list(idNo);
-    }
-
 
 
 

@@ -47,16 +47,13 @@ public class CalenderController {
         List<GroupDTO> groups = new ArrayList<GroupDTO>();
         if(userService.user_belong_groupNo(loginedUserDTO) != null){
             for (Integer groupNum : userService.user_belong_groupNo(loginedUserDTO)) {
-//                log.warn("참여중인 그룹 : " + groupService.Select_user_group(groupNum));
                 groups.add(groupService.Select_user_group(groupNum));
             }
         }
 
-//        log.warn("calendar"+loginedUserDTO);
-
         model.addAttribute("groupNo", groupNo);
         model.addAttribute("belongGroup", groups);
-        model.addAttribute("selectedList", calendarService.select_list(loginedUserDTO.getIdNo()));
+        model.addAttribute("selectedList", calendarService.select_individual_data(loginedUserDTO.getIdNo()));
         return "main/calendar";
     }
 

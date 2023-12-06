@@ -8,8 +8,7 @@ function handleClick(event) {
             <input type="text" name="id" placeholder="ID"/>
             <input type="password" name="pw" placeholder="PASSWORD"/>
             <input type="file" name="fileData"/>
-<!--            <input type="submit" value="들어가 제발" />-->
-            <button onclick="handleSignUp()">제발 들어가줘</button>
+            <button onclick="handleSignUp()">회원가입</button>
     `;
     this.classList.toggle("active");
     this.innerHTML = "";

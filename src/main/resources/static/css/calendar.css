@@ -26,7 +26,7 @@ body {
     top: 30px;
     padding: 0;
     width: 200px;
-    height: 25%;
+    height: 30%;
     margin-top: 15px;
     background-color: cornsilk;
     border-radius: 5px;
@@ -251,23 +251,30 @@ ul{
     /*display: grid;*/
     /*grid-template-columns: repeat(2, 1fr);*/
     /*grid-template-rows: repeat(2, 1fr);*/
-    border: 1px solid black;
-    border-radius: 5px;
+    /*border: 1px solid black;*/
+    /*border-radius: 8px;*/
     padding-top: 8px;
+    /*background-color: #fff8dc;*/
+
 }
 
 .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(1, 1fr);
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #fff8dc;
 }
 
 .main_date {
-    border: 1px solid black;
-    border-radius: 5px;
+    /*border: 1px solid black;*/
+    /*border-radius: 8px;*/
     /*padding-top: 8px;*/
     /*padding: 0px 23px;*/
-    padding: 10px 0px;
+    padding: 10px 0;
+    /*background-color: #fff8dc;*/
+    border-left: 1px solid black;
 }
 
 .y, .m, .d{
