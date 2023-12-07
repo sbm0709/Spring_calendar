@@ -59,7 +59,7 @@ section{
 #userPhoto{
     background-image: none;
     width: 180px;
-    height: 40%;
+    height: 45%;
     margin: 0 auto;
     top: 0;
     border-radius: 5px;
@@ -71,6 +71,7 @@ section{
     width: 180px;
     height: 30%;
     margin: 0 auto;
+    margin-top: 5px;
     background-position: center;
 }
 
@@ -283,5 +284,10 @@ ul{
 
 .y{
     /*margin-top: 10px;*/
+}
+
+label {
+    display: inline-flex;
+    width: 85px;
 }
 

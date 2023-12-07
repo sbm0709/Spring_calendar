@@ -45,9 +45,7 @@ window.onload = () => {
             $('.y').append(date.getFullYear() + '년');
             $('.m').append(date.getMonth() + 1 + '월');
             $('.d').append(date.getDate() + '일');
-
         }
-
     })
 }
 
@@ -168,10 +166,10 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             contentType: "application/json",
             success: function (data) {
-
+                console.log("save_data - suc")
             },
             error: function (error) {
-                console.log("save" + error)
+                console.log("save_data - err")
             }
         })
         location.reload();
@@ -232,6 +230,37 @@ document.addEventListener('DOMContentLoaded', function() {
         profileInput.click();
     }
 
+    //form 생성, url 등록 후 form 반환
+    function postFormCreate(url){
+        const form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', url);
+        return form;
+    }
+    function getFormCreate(url){
+        const form = document.createElement('form');
+        form.setAttribute('method', 'get');
+        form.setAttribute('action', url);
+        return form;
+    }
+
+    //input 만들어서 name, value 지정 후 input 반환
+    function inputCreate(name, value){
+
+        const data = document.createElement('input');
+        data.setAttribute('type', 'hidden'); // type = hidden
+        data.setAttribute('name', name);
+        data.setAttribute('value', value);
+
+        return data;
+    }
+
+    //form body에 붙이고 submit
+    function formSubmit(form){
+        document.body.appendChild(form);
+        form.submit();
+    }
+
 
     function group_create() {
         let groupName = prompt("생성할 그룹 이름을 적어주세요");
@@ -239,36 +268,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (groupName.trim() === null) {
             alert("그룹 이름을 제대로 입력해주세요!")
         } else {
-            const form = document.createElement('form');
-            form.setAttribute('method', 'post');
-            form.setAttribute('action', "/group/create");
-
-            const data_1 = document.createElement('input');
-            data_1.setAttribute('type', 'hidden'); // type = hidden
-            data_1.setAttribute('name', 'groupName');
-            data_1.setAttribute('value', groupName);
-
+            const form = postFormCreate("/group/create");
+            const data_1 = inputCreate("groupName", groupName);
             form.appendChild(data_1);
-            document.body.appendChild(form);
-            form.submit();
+            formSubmit(form)
         }
     }
 
     function direct_group(groupNo) {
 
         console.log("main - direct_group_groupNo : " + groupNo)
-        const form = document.createElement('form');
-        form.setAttribute('method', 'get');
-        form.setAttribute('action', "/main/calendar");
-
-        const data_1 = document.createElement('input');
-        data_1.setAttribute('type', 'hidden'); // type = hidden
-        data_1.setAttribute('name', 'groupNo');
-        data_1.setAttribute('value', groupNo);
-
-        form.appendChild(data_1);
-        document.body.appendChild(form);
-        form.submit();
+        const form = getFormCreate("/main/calendar");
+        const data = inputCreate('groupNo',groupNo);
+        form.appendChild(data);
+        formSubmit(form);
     }
 
     function group_secession(groupNo) {
@@ -276,19 +289,10 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("그룹을 선택해주세요");
             location.reload();
         } else {
-            const form = document.createElement('form');
-            form.setAttribute('method', 'post');
-            form.setAttribute('action', "/group/secession");
-
-            const data_1 = document.createElement('input');
-            data_1.setAttribute('type', 'hidden'); // type = hidden
-            data_1.setAttribute('name', 'groupNo');
-            data_1.setAttribute('value', groupNo);
-
-            form.appendChild(data_1);
-            document.body.appendChild(form);
-            form.submit();
-
+            const form = postFormCreate("/group/secession");
+            const data = inputCreate('groupNo',groupNo);
+            form.appendChild(data);
+            formSubmit(form);
         }
 
     }
@@ -300,24 +304,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             let inviteid = prompt("초대할 사람의 id를 입력해주세요")
 
-            const form = document.createElement('form');
-            form.setAttribute('method', 'post');
-            form.setAttribute('action', "/user/invite");
-
-            const data_1 = document.createElement('input');
-            data_1.setAttribute('type', 'hidden');
-            data_1.setAttribute('name', 'id');
-            data_1.setAttribute('value', inviteid);
-
-            const data_2 = document.createElement('input');
-            data_2.setAttribute('type', 'hidden');
-            data_2.setAttribute('name', 'groupNo');
-            data_2.setAttribute('value', groupNo);
-
+            const form = postFormCreate("/user/invite");
+            const data_1 = inputCreate('id',inviteid);
+            const data_2 = inputCreate('groupNo',groupNo);
             form.appendChild(data_1);
             form.appendChild(data_2);
-            document.body.appendChild(form);
-            form.submit();
+            formSubmit(form);
         }
 
     }

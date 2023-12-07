@@ -52,12 +52,12 @@
                 <button type="submit" onclick="location.href='/user/delete'">회원탈퇴</button>
             </div>
             <div id="colorBox">
-                <label><input name="color" class="color" value="red" type="radio">red</label>
-                <label><input name="color" class="color" value="blue" type="radio">blue</label> <br>
-                <label><input name="color" class="color" value="green" type="radio">green</label>
-                <label><input name="color" class="color" value="violet" type="radio" >violet</label> <br>
-                <label><input name="color" class="color" value="orange" type="radio" >orange</label>
-                <label><input name="color" class="color" checked value="nomal" type="radio" >nomal</label>
+                <label><input name="color" class="color" value="red" type="radio">Red</label>
+                <label><input name="color" class="color" value="blue" type="radio">Blue</label> <br>
+                <label><input name="color" class="color" value="green" type="radio">Green</label>
+                <label><input name="color" class="color" value="violet" type="radio" >Violet</label> <br>
+                <label><input name="color" class="color" value="orange" type="radio" >Orange</label>
+                <label><input name="color" class="color" checked value="nomal" type="radio" >Nomal</label>
             </div>
         </div>
         <div id="list1">
@@ -65,7 +65,7 @@
             <ul class="lists" >
                 <li th:each="calendarDTO : ${selectedList}">
                     <div class="plist_name" th:text="${calendarDTO.title}"></div>
-                    <div class="plist_date" th:text="${#temporals.format(calendarDTO.start,'yyyy-MM-dd')}"></div>
+                    <div class="plist_date" th:text="${#temporals.format(calendarDTO.start,'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(calendarDTO.end,'yyyy-MM-dd')}"></div>
                 </li>
             </ul>
         </div>
