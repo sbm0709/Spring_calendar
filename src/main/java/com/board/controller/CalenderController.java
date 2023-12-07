@@ -53,7 +53,7 @@ public class CalenderController {
 
         model.addAttribute("groupNo", groupNo);
         model.addAttribute("belongGroup", groups);
-        model.addAttribute("selectedList", calendarService.select_individual_data(loginedUserDTO.getIdNo()));
+        model.addAttribute("selectedList", calendarService.select_list(loginedUserDTO.getIdNo()));
         return "main/calendar";
     }
 

@@ -23,5 +23,6 @@ public interface CalendarMapper {
     // 그룹 일정 추가
     void save_group_data(CalendarDTO calendarDTO);
 
+    List<CalendarDTO> select_list(int idNo);
 
 }

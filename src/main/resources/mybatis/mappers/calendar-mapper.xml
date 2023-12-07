@@ -35,7 +35,7 @@
     </update>
     
     <select id="select_list" resultType="com.board.dto.CalendarDTO" parameterType="int">
-        select * from calendar where curdate() <![CDATA[<=]]> `start` and idNo= #{idNo} and CalendarType='individual' ORDER BY end
+        select * from calendar where curdate() <![CDATA[<]]> `end` and idNo= #{idNo} and CalendarType='individual' ORDER BY start
     </select>
 
 </mapper>

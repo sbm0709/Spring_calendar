@@ -18,4 +18,5 @@
         <typeAlias type="com.board.dto.GroupDTO" alias="GroupDTO" />
         <typeAlias type="com.board.dto.UserGroupDTO" alias="UserGroupDTO" />
     </typeAliases>
+
 </configuration>

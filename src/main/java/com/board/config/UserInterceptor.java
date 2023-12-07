@@ -13,7 +13,7 @@ public class UserInterceptor implements HandlerInterceptor {
         log.fatal("UserInterceptor - preHandle");
         HttpSession session = request.getSession();
         if(session.getAttribute("loginedUser") == null){
-            response.sendRedirect("/calendar");
+            response.sendRedirect("/");
             return false;
         }
 
